@@ -1,7 +1,5 @@
 # OOP-Project
 
-# OOP-Project
-
 ## Students:
 1. Team Leader: Ishutin Nikolay
 2. Zhazykbayeva Tomiris
