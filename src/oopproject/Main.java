@@ -18,7 +18,6 @@ public class Main {
 
         System.out.println("Welcome to University Management System!");
 
-        // 2. Логин
         while (currentUser == null) {
             System.out.print("Login: ");
             String login = scanner.nextLine();
