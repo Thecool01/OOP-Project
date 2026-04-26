@@ -73,7 +73,7 @@ public class Student extends User {
     }
 
     // Добавление оценки студенту по конкретному курсу
-    public void AddMark(Course course, Mark mark){
+    public void addMark(Course course, Mark mark){
         if (course == null || mark == null){
             throw new IllegalArgumentException("Course and mark must not be null");
         }
