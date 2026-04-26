@@ -12,11 +12,13 @@ public class Main {
         try {
             DataStorage.getInstance().loadData();
         } catch (Exception e) {
-            System.out.println("No existing data found. Starting fresh.");
-            DataStorage.getInstance().getUsers().add(new Admin("A1", "admin", "admin123", "System", "Admin", 0, new java.util.Date()));
+            System.out.println("Starting with fresh database...");
+            DataStorage.getInstance().getUsers().add(
+                new Admin("A1", "admin", "admin123", "System", "Admin", 0, new java.util.Date())
+            );
         }
 
-        System.out.println("Welcome to University Management System!");
+        System.out.println("=== University Management System ===");
 
         while (currentUser == null) {
             System.out.print("Login: ");
@@ -24,39 +26,51 @@ public class Main {
             System.out.print("Password: ");
             String pass = scanner.nextLine();
 
-            for (User u : DataStorage.getInstance().getUsers()) {
-                if (u.getLogin().equals(login) && u.getPassword().equals(pass)) {
-                    currentUser = u;
-                    DataStorage.getInstance().addLog("User " + login + " logged in.");
-                    break;
-                }
+            currentUser = AuthService.authenticate(login, pass);
+
+            if (currentUser == null) {
+                System.out.println("Invalid login or password. Try again.");
             }
-            if (currentUser == null) System.out.println("Invalid credentials!");
         }
 
+        System.out.println("Successfully logged in as " + currentUser.getFirstName());
+        
         runMenu();
     }
 
     private static void runMenu() {
         if (currentUser instanceof Admin) {
             showAdminMenu((Admin) currentUser);
+        } else if (currentUser instanceof Student) {
+            System.out.println("Student menu coming soon...");
         }
     }
 
     private static void showAdminMenu(Admin admin) {
         while (true) {
-            System.out.println("\n1. Add User\n2. View Logs\n3. Save & Exit");
+            System.out.println("\n--- Admin Menu ---");
+            System.out.println("1. Add User\n2. Update User\n3. View Logs\n4. Save & Exit");
+            
             int choice = Integer.parseInt(scanner.nextLine());
+            
             if (choice == 1) {
-                System.out.println("Enter login for new student:");
+                System.out.print("New user login: ");
                 String login = scanner.nextLine();
                 admin.addUser(new Student("S"+(int)(Math.random()*100), login, "123", "New", "Student", 1, 0, 0, "CS"));
-                DataStorage.getInstance().addLog("Admin added user: " + login);
             } else if (choice == 2) {
-                admin.viewLogs();
+                System.out.print("Enter login to update: ");
+                String login = scanner.nextLine();
+                User userToUpdate = DataStorage.getInstance().findUserByLogin(login);
+                if (userToUpdate != null) {
+                    admin.updateUser(userToUpdate, "UpdatedName", "UpdatedLast", "newpass123");
+                    System.out.println("User updated!");
+                }
             } else if (choice == 3) {
+                admin.viewLogs();
+            } else if (choice == 4) {
                 DataStorage.getInstance().saveData();
-                break;
+                System.out.println("Goodbye!");
+                System.exit(0);
             }
         }
     }
