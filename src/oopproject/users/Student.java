@@ -1,9 +1,12 @@
 package oopproject.users;
 
 import oopproject.academic.Course;
+import oopproject.academic.Mark;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Student extends User {
     private int yearOfStudy;
@@ -11,6 +14,8 @@ public class Student extends User {
     private int creditsEnrolled;
     private String major;
     private final List<Course> registeredCourses = new ArrayList<>();
+    //Хранение оценок: ключ = курс, значение оценка по курсу
+    private final Map<Course, Mark> marks = new HashMap<>();
 
     public Student() {
     }
@@ -67,7 +72,37 @@ public class Student extends User {
         }
     }
 
+    // Добавление оценки студенту по конкретному курсу
+    public void AddMark(Course course, Mark mark){
+        if (course == null || mark == null){
+            throw new IllegalArgumentException("Course and mark must not be null");
+        }
+
+        if (!registeredCourses.contains(course)) {
+            throw new IllegalArgumentException("Student is not registered for this course");
+        }
+
+        marks.put(course, mark);
+        }
+    // Получить оценку по одному курсу
+    public Mark getMark(Course course) {
+        return marks.get(course);
+    }
+
+    // Получить все оценки
+    public Map<Course, Mark> getMarks() {
+        return marks;
+    }
+
+    // Просмотр всех оценок
     public void viewMarks() {
-        System.out.println("Viewing marks is not implemented yet for " + getLogin());
+        if (marks.isEmpty()) {
+            System.out.println("No marks yet for " + getLogin()); //getLogin можно убрать
+            return;
+        }
+
+        for (Map.Entry<Course, Mark> entry : marks.entrySet()) {
+            System.out.println(entry.getKey().getCourseName() + ": " + entry.getValue().getTotal());
+        }
     }
 }
