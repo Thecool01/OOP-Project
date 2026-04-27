@@ -1,7 +1,7 @@
 package oopproject.research;
 
-import java.io.Serializable;
 import java.util.Date;
+import java.io.Serializable;
 
 public class ResearchPaper implements Serializable {
     private String title;
@@ -13,6 +13,15 @@ public class ResearchPaper implements Serializable {
     private String doi;
 
     public ResearchPaper() {
+    }
+
+    public ResearchPaper(String title, String authors, String journal, int pages, int citations) {
+        this.title = title;
+        this.authors = authors;
+        this.journal = journal;
+        this.pages = pages;
+        this.citations = citations;
+        this.datePublished = new Date();
     }
 
     public ResearchPaper(String title, String authors, String journal, int pages,

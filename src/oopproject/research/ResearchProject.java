@@ -40,15 +40,18 @@ public class ResearchProject implements Serializable {
         this.participants = participants;
     }
 
-    public void addPaper(ResearchPaper paper) {
-        if (paper != null) {
-            publishedPapers.add(paper);
+    public void addParticipant(Researcher researcher) throws NonResearcherJoinProjectException {
+        if (researcher == null) {
+            throw new NonResearcherJoinProjectException("Only researchers can join!");
+        }
+        if (!participants.contains(researcher)) {
+            participants.add(researcher);
         }
     }
 
-    public void addParticipant(Researcher researcher) {
-        if (researcher != null && !participants.contains(researcher)) {
-            participants.add(researcher);
+    public void addPaper(ResearchPaper paper) {
+        if (paper != null) {
+            publishedPapers.add(paper);
         }
     }
 }

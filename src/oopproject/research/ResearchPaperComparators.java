@@ -1,5 +1,6 @@
-package research;
+package oopproject.research;
 import java.util.Comparator;
+
 
 public class ResearchPaperComparators {
     public static Comparator<ResearchPaper> byCitations = new Comparator<ResearchPaper>() {

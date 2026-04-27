@@ -4,6 +4,7 @@ import oopproject.users.User;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -11,6 +12,9 @@ public class ResearcherDecorator implements Researcher, Serializable {
     private User user;
     private List<ResearchPaper> papers = new ArrayList<>();
     private List<ResearchProject> projects = new ArrayList<>();
+
+    public ResearcherDecorator() {
+    }
 
     public ResearcherDecorator(User user) {
         this.user = user;
@@ -52,25 +56,32 @@ public class ResearcherDecorator implements Researcher, Serializable {
         }
     }
 
-    public int calculateHIndex() {
-        List<Integer> citations = papers.stream()
-                .map(ResearchPaper::getCitations)
-                .sorted(Comparator.reverseOrder())
-                .toList();
-
-        int hIndex = 0;
-        for (int i = 0; i < citations.size(); i++) {
-            if (citations.get(i) >= i + 1) {
-                hIndex = i + 1;
-            }
-        }
-        return hIndex;
-    }
-
     @Override
     public void printPapers(Comparator<ResearchPaper> comparator) {
         papers.stream()
                 .sorted(comparator)
                 .forEach(System.out::println);
+    }
+
+    @Override
+    public int calculateHIndex() {
+        if (papers.isEmpty()) return 0;
+
+        List<Integer> citations = new ArrayList<>();
+        for (ResearchPaper p : papers) {
+            citations.add(p.getCitations());
+        }
+
+        citations.sort(Collections.reverseOrder());
+
+        int hIndex = 0;
+        for (int i = 0; i < citations.size(); i++) {
+            if (citations.get(i) >= i + 1) {
+                hIndex = i + 1;
+            } else {
+                break;
+            }
+        }
+        return hIndex;
     }
 }
