@@ -2050,6 +2050,7 @@
 											"model": {
 												"$ref": "AAAAAAGdlUb62lHas4c="
 											},
+											"visible": false,
 											"fillColor": "#A3E0FF",
 											"font": "Arial;20;0",
 											"parentStyle": true,
@@ -2087,7 +2088,7 @@
 									"left": 2968,
 									"top": 2142,
 									"width": 669.265625,
-									"height": 52
+									"height": 30
 								},
 								{
 									"_type": "UMLReceptionCompartmentView",
