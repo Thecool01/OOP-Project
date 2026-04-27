@@ -2,6 +2,7 @@ package oopproject.users;
 
 import oopproject.academic.Course;
 import oopproject.enums.ManagerType;
+import oopproject.exceptions.RegistrationException;
 
 import java.util.Date;
 
@@ -29,9 +30,21 @@ public class Manager extends Employee {
         System.out.println("Registration approved by manager " + getLogin());
     }
 
+    public void approveRegistration(Student student, Course course) {
+        if (student == null || course == null) {
+            throw new RegistrationException(student == null ? null : student.getId(),
+                    course == null ? null : course.getCourseName(),
+                    "student and course must not be null");
+        }
+        student.registerForCourse(course);
+        System.out.println("Registration approved by manager " + getLogin());
+    }
+
     public void assignCourseToTeacher(Course course, Teacher teacher) {
         if (course == null || teacher == null) {
-            throw new IllegalArgumentException("Course and teacher must not be null");
+            throw new RegistrationException(null,
+                    course == null ? null : course.getCourseName(),
+                    "course and teacher must not be null");
         }
         course.addInstructor(teacher);
     }

@@ -14,14 +14,14 @@ public class Admin extends Employee {
     }
 
     public void addUser(User user) {
-        DataStorage.getInstance().getUsers().add(user);
+        DataStorage.getInstance().addUser(user);
     }
 
     public void removeUser(User user) {
-        DataStorage.getInstance().getUsers().remove(user);
+        DataStorage.getInstance().removeUser(user);
     }
 
     public void viewLogs() {
-        System.out.println("Logs viewing is not implemented yet.");
+        DataStorage.getInstance().getActionLogs().forEach(System.out::println);
     }
 }

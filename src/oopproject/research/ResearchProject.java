@@ -1,5 +1,8 @@
 package oopproject.research;
 
+import oopproject.exceptions.ResearchException;
+import oopproject.users.User;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,5 +53,10 @@ public class ResearchProject implements Serializable {
         if (researcher != null && !participants.contains(researcher)) {
             participants.add(researcher);
         }
+    }
+
+    public void addParticipant(User user) {
+        String login = user == null ? "unknown" : user.getLogin();
+        throw new ResearchException(topic, "user '" + login + "' is not decorated as a researcher");
     }
 }
