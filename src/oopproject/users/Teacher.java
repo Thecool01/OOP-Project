@@ -1,7 +1,9 @@
 package oopproject.users;
 
+import oopproject.academic.Course;
 import oopproject.academic.Mark;
 import oopproject.enums.TeacherTitle;
+import oopproject.exceptions.MarkException;
 
 import java.util.Date;
 
@@ -25,15 +27,27 @@ public class Teacher extends Employee {
         this.title = title;
     }
 
-    public void putMark(Student s, Mark m) {
-        if (s == null || m == null) {
-            throw new IllegalArgumentException("Student and mark must not be null");
-        }
-        System.out.println("Mark was assigned to student " + s.getLogin());
+    public boolean isProfessor() {
+        return title == TeacherTitle.PROFESSOR;
     }
 
+    public void putMark(Student student, Mark mark) {
+        if (student == null || mark == null) {
+            throw new MarkException(student == null ? null : student.getId(), null, "student and mark must not be null");
+        }
+        System.out.println("Mark was assigned to student " + student.getLogin());
+    }
 
-    // Метод для отправки жалобы
+    public void putMark(Student student, Course course, Mark mark) {
+        if (student == null || course == null || mark == null) {
+            throw new MarkException(student == null ? null : student.getId(),
+                    course == null ? null : course.getCourseName(),
+                    "student, course and mark must not be null");
+        }
+        student.addMark(course, mark);
+        System.out.println("Mark was assigned to student " + student.getLogin());
+    }
+
     public void sendComplaint() {
         System.out.println("Complaint was sent by teacher " + getLogin());
     }

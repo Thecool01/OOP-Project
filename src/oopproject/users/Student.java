@@ -1,16 +1,25 @@
 package oopproject.users;
 
 import oopproject.academic.Course;
+import oopproject.academic.Mark;
+import oopproject.exceptions.RegistrationException;
+import oopproject.research.Researcher;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Student extends User {
+    private static final int MAX_CREDITS = 21;
+
     private int yearOfStudy;
     private double gpa;
     private int creditsEnrolled;
     private String major;
+    private Researcher supervisor;
     private final List<Course> registeredCourses = new ArrayList<>();
+    private final Map<Course, Mark> marks = new HashMap<>();
 
     public Student() {
     }
@@ -61,13 +70,43 @@ public class Student extends User {
     }
 
     public void registerForCourse(Course c) {
-        if (c != null && !registeredCourses.contains(c)) {
-            registeredCourses.add(c);
-            creditsEnrolled += c.getCredits();
+        if (c == null) {
+            throw new RegistrationException(getId(), null, "course is null");
         }
+        if (registeredCourses.contains(c)) {
+            return;
+        }
+        if (creditsEnrolled + c.getCredits() > MAX_CREDITS) {
+            throw new RegistrationException(getId(), c.getCourseName(), "student cannot register for more than 21 credits");
+        }
+        registeredCourses.add(c);
+        creditsEnrolled += c.getCredits();
+    }
+
+    public Researcher getSupervisor() {
+        return supervisor;
+    }
+
+    public void setSupervisor(Researcher supervisor) {
+        if (yearOfStudy >= 4 && supervisor != null && supervisor.calculateHIndex() < 3) {
+            throw new RegistrationException(getId(), "research supervisor", "supervisor h-index must be at least 3");
+        }
+        this.supervisor = supervisor;
+    }
+
+    public Map<Course, Mark> getMarks() {
+        return marks;
+    }
+
+    public void addMark(Course course, Mark mark) {
+        marks.put(course, mark);
     }
 
     public void viewMarks() {
-        System.out.println("Viewing marks is not implemented yet for " + getLogin());
+        marks.forEach((course, mark) -> System.out.println(course.getCourseName() + ": " + mark.getTotal()));
+    }
+
+    public void viewTranscript() {
+        viewMarks();
     }
 }
