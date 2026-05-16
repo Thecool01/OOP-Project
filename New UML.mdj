@@ -4,25 +4,6 @@
 	"name": "Untitled",
 	"ownedElements": [
 		{
-			"_type": "UMLModel",
-			"_id": "AAAAAAFF+qBWK6M3Z8Y=",
-			"_parent": {
-				"$ref": "AAAAAAFF+h6SjaM2Hec="
-			},
-			"name": "Model",
-			"ownedElements": [
-				{
-					"_type": "UMLClassDiagram",
-					"_id": "AAAAAAFF+qBtyKM79qY=",
-					"_parent": {
-						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
-					},
-					"name": "Main",
-					"defaultDiagram": true
-				}
-			]
-		},
-		{
 			"_type": "UMLProfile",
 			"_id": "AAAAAAGeA7scHBCP7Os=",
 			"_parent": {
@@ -7399,7 +7380,7 @@
 									"containerExtending": true,
 									"left": 236,
 									"top": 644,
-									"width": 79.380859375,
+									"width": 72.3125,
 									"height": 36,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGeA7scGQ8O5kg="
@@ -7597,7 +7578,7 @@
 									"containerExtending": true,
 									"left": 236,
 									"top": 708,
-									"width": 79.380859375,
+									"width": 72.3125,
 									"height": 36,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGeA7scGQ8YNX4="
@@ -7795,7 +7776,7 @@
 									"containerExtending": true,
 									"left": 236,
 									"top": 764,
-									"width": 79.380859375,
+									"width": 72.3125,
 									"height": 36,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGeA7scGQ8i/a8="
@@ -7993,7 +7974,7 @@
 									"containerExtending": true,
 									"left": 236,
 									"top": 820,
-									"width": 92.013671875,
+									"width": 83.685546875,
 									"height": 36,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGeA7scGQ8sBRQ="
@@ -8191,7 +8172,7 @@
 									"containerExtending": true,
 									"left": 236,
 									"top": 876,
-									"width": 79.380859375,
+									"width": 72.3125,
 									"height": 36,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGeA7scGQ82afQ="
@@ -9161,7 +9142,7 @@
 									"containerExtending": true,
 									"left": 740,
 									"top": 60,
-									"width": 120.396484375,
+									"width": 113.427734375,
 									"height": 22
 								},
 								{
@@ -9327,7 +9308,7 @@
 									"containerExtending": true,
 									"left": 740,
 									"top": 96,
-									"width": 79.380859375,
+									"width": 72.3125,
 									"height": 36,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGeA7scGQ9ptcQ="
@@ -9525,7 +9506,7 @@
 									"containerExtending": true,
 									"left": 740,
 									"top": 148,
-									"width": 79.380859375,
+									"width": 72.3125,
 									"height": 36,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGeA7scGQ9z7s4="
@@ -14126,7 +14107,7 @@
 			"_parent": {
 				"$ref": "AAAAAAFF+h6SjaM2Hec="
 			},
-			"name": "Model1",
+			"name": "USE-CASE-DIAGRAM",
 			"ownedElements": [
 				{
 					"_type": "UMLUseCaseDiagram",
@@ -16327,7 +16308,7 @@
 									"parentStyle": true,
 									"left": 1820.5,
 									"top": 582,
-									"width": 97.9609375,
+									"width": 97,
 									"height": 36,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGeA8YCXBPeknU="
@@ -16748,7 +16729,7 @@
 									"parentStyle": true,
 									"left": 1873,
 									"top": 1727,
-									"width": 159.1767578125,
+									"width": 159,
 									"height": 34,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGeB96H2/abcJs="
@@ -16969,7 +16950,7 @@
 									"parentStyle": true,
 									"left": 2240.5,
 									"top": 1823,
-									"width": 118.3994140625,
+									"width": 118,
 									"height": 34,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGeB96dO/wtYfI="
@@ -17190,7 +17171,7 @@
 									"parentStyle": true,
 									"left": 2024,
 									"top": 1995,
-									"width": 115.1767578125,
+									"width": 114,
 									"height": 34,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGeB96r6gEa5/o="
@@ -17853,7 +17834,7 @@
 									"parentStyle": true,
 									"left": 2001,
 									"top": 1593,
-									"width": 80.03125,
+									"width": 79,
 									"height": 30,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGeB+FFkm23NFw="
@@ -18592,7 +18573,7 @@
 									"parentStyle": true,
 									"left": 3047,
 									"top": 1708,
-									"width": 110.01953125,
+									"width": 109,
 									"height": 32,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGeB+SSk7eEPd4="
@@ -18813,7 +18794,7 @@
 									"parentStyle": true,
 									"left": 2850,
 									"top": 1760,
-									"width": 124.47265625,
+									"width": 124,
 									"height": 32,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGeB+TOo7uBlSg="
@@ -19034,7 +19015,7 @@
 									"parentStyle": true,
 									"left": 2577,
 									"top": 1852,
-									"width": 196.71875,
+									"width": 196,
 									"height": 32,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGeB+Tua8AU0+w="
@@ -19255,7 +19236,7 @@
 									"parentStyle": true,
 									"left": 2567.5,
 									"top": 2004,
-									"width": 151.494140625,
+									"width": 151,
 									"height": 32,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGeB+T+6sOoRyM="
@@ -19476,7 +19457,7 @@
 									"parentStyle": true,
 									"left": 2538.5,
 									"top": 2224,
-									"width": 282.333984375,
+									"width": 282,
 									"height": 32,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGeB+UlW8eWLwY="
@@ -19983,7 +19964,7 @@
 									"parentStyle": true,
 									"left": 2794.5,
 									"top": 1550,
-									"width": 202.984375,
+									"width": 202,
 									"height": 28,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGeB+gd82a3II8="
@@ -20204,7 +20185,7 @@
 									"parentStyle": true,
 									"left": 2534,
 									"top": 2404,
-									"width": 258.96484375,
+									"width": 258,
 									"height": 32,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGeB+hC1Gu8fzc="
@@ -20425,7 +20406,7 @@
 									"parentStyle": true,
 									"left": 2563.5,
 									"top": 1673.5,
-									"width": 169.7109375,
+									"width": 169,
 									"height": 28,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGeB+hURW/FDyQ="
@@ -20943,7 +20924,7 @@
 									"parentStyle": true,
 									"left": 1805.5,
 									"top": 700,
-									"width": 140.80078125,
+									"width": 140,
 									"height": 32,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGeCHbEvpY+OwE="
@@ -21164,7 +21145,7 @@
 									"parentStyle": true,
 									"left": 2073,
 									"top": 888,
-									"width": 196.708984375,
+									"width": 196,
 									"height": 32,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGeCHcfCL0Due4="
@@ -21606,7 +21587,7 @@
 									"parentStyle": true,
 									"left": 1793,
 									"top": 972,
-									"width": 157.470703125,
+									"width": 156,
 									"height": 32,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGeCHzWWkg7Tb8="
@@ -21827,7 +21808,7 @@
 									"parentStyle": true,
 									"left": 2447,
 									"top": 892,
-									"width": 186.69921875,
+									"width": 186,
 									"height": 32,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGeCHzwaU0BZgA="
@@ -22147,7 +22128,7 @@
 									"parentStyle": true,
 									"left": 1841,
 									"top": 1128,
-									"width": 236.376953125,
+									"width": 236,
 									"height": 32,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGeCIBdQWdVI1U="
@@ -22368,7 +22349,7 @@
 									"parentStyle": true,
 									"left": 2118.5,
 									"top": 1224,
-									"width": 146.328125,
+									"width": 145,
 									"height": 32,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGeCIBsr2tbCYY="
@@ -23031,7 +23012,7 @@
 									"parentStyle": true,
 									"left": 2412.5,
 									"top": 1340,
-									"width": 137.841796875,
+									"width": 137,
 									"height": 32,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGeCIFLMbaoMFY="
@@ -23351,7 +23332,7 @@
 									"parentStyle": true,
 									"left": 1840.5,
 									"top": 2354,
-									"width": 232.2578125,
+									"width": 231,
 									"height": 28,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGeCIRk2Y9x3Nk="
@@ -23572,7 +23553,7 @@
 									"parentStyle": true,
 									"left": 2115,
 									"top": 2490,
-									"width": 207.0859375,
+									"width": 206,
 									"height": 28,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGeCISEKJjNCb0="
@@ -23793,7 +23774,7 @@
 									"parentStyle": true,
 									"left": 2072.5,
 									"top": 2666,
-									"width": 195.84375,
+									"width": 195,
 									"height": 28,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGeCISVSZ80/jw="
@@ -24014,7 +23995,7 @@
 									"parentStyle": true,
 									"left": 1832,
 									"top": 2774,
-									"width": 115.8125,
+									"width": 115,
 									"height": 28,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGeCISj8aQhEkw="
@@ -24235,7 +24216,7 @@
 									"parentStyle": true,
 									"left": 2432.5,
 									"top": 2606,
-									"width": 156.7265625,
+									"width": 156,
 									"height": 28,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAGeCIa30PUkbNk="
@@ -33399,7 +33380,7 @@
 			"_parent": {
 				"$ref": "AAAAAAFF+h6SjaM2Hec="
 			},
-			"name": "Model3",
+			"name": "CLASS-DIAGRAM",
 			"ownedElements": [
 				{
 					"_type": "UMLClassDiagram",
@@ -33470,9 +33451,9 @@
 											"parentStyle": true,
 											"left": 2480,
 											"top": -288,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -33936,9 +33917,9 @@
 											"parentStyle": true,
 											"left": 6560,
 											"top": 272,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -34250,9 +34231,9 @@
 											"parentStyle": true,
 											"left": 2480,
 											"top": 1008,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -34735,9 +34716,9 @@
 											"parentStyle": true,
 											"left": 3936,
 											"top": 1280,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -35106,9 +35087,9 @@
 											"parentStyle": true,
 											"left": 5504,
 											"top": 1264,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -35458,9 +35439,9 @@
 											"parentStyle": true,
 											"left": 6576,
 											"top": 1280,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -36222,9 +36203,9 @@
 											"parentStyle": true,
 											"left": 5104,
 											"top": 1520,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -36745,9 +36726,9 @@
 											"parentStyle": true,
 											"left": 2752,
 											"top": 2176,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -37078,9 +37059,9 @@
 											"parentStyle": true,
 											"left": 3200,
 											"top": 2336,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -37449,9 +37430,9 @@
 											"parentStyle": true,
 											"left": -352,
 											"top": 2992,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -37763,9 +37744,9 @@
 											"parentStyle": true,
 											"left": 3840,
 											"top": 3616,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -38172,9 +38153,9 @@
 											"parentStyle": true,
 											"left": 9984,
 											"top": 688,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -38486,9 +38467,9 @@
 											"parentStyle": true,
 											"left": 9376,
 											"top": 1520,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -38800,9 +38781,9 @@
 											"parentStyle": true,
 											"left": 11872,
 											"top": 2064,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -39133,9 +39114,9 @@
 											"parentStyle": true,
 											"left": 10816,
 											"top": 1248,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -39427,9 +39408,9 @@
 											"parentStyle": true,
 											"left": 5328,
 											"top": 1072,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -39721,9 +39702,9 @@
 											"parentStyle": true,
 											"left": 5376,
 											"top": 1360,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -40054,9 +40035,9 @@
 											"parentStyle": true,
 											"left": 3152,
 											"top": 2896,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -40482,9 +40463,9 @@
 											"parentStyle": true,
 											"left": 5504,
 											"top": 2320,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -40662,7 +40643,7 @@
 											"top": 3223,
 											"width": 634.703125,
 											"height": 22,
-											"text": "+addParticipant(researcher: Researcher): void",
+											"text": "+addParticipant(researcher): void",
 											"horizontalAlignment": 0
 										},
 										{
@@ -40700,7 +40681,7 @@
 											"top": 3271,
 											"width": 634.703125,
 											"height": 22,
-											"text": "+removeParticipant(researcher: Researcher): void",
+											"text": "+removeParticipant(researcher): void",
 											"horizontalAlignment": 0
 										},
 										{
@@ -40853,9 +40834,9 @@
 											"parentStyle": true,
 											"left": 2592,
 											"top": 3024,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -41070,9 +41051,9 @@
 											"parentStyle": true,
 											"left": 3056,
 											"top": 1696,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -41287,9 +41268,9 @@
 											"parentStyle": true,
 											"left": 3040,
 											"top": 1664,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -41504,9 +41485,9 @@
 											"parentStyle": true,
 											"left": -160,
 											"top": 3264,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -41914,9 +41895,9 @@
 											"parentStyle": true,
 											"left": 768,
 											"top": 3920,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -42153,9 +42134,9 @@
 											"parentStyle": true,
 											"left": 1952,
 											"top": 3040,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -42408,9 +42389,9 @@
 											"parentStyle": true,
 											"left": 1744,
 											"top": 3856,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -42682,9 +42663,9 @@
 											"parentStyle": true,
 											"left": 288,
 											"top": 4432,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -42956,9 +42937,9 @@
 											"parentStyle": true,
 											"left": 3408,
 											"top": 3712,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -43192,9 +43173,9 @@
 											"parentStyle": true,
 											"left": 4400,
 											"top": 3216,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -43275,7 +43256,7 @@
 											"top": 3969,
 											"width": 898.74609375,
 											"height": 22,
-											"text": "+addPaper(researcher: Researcher, paper: ResearchPaper): void",
+											"text": "+addPaper(researcher, paper: ResearchPaper): void",
 											"horizontalAlignment": 0
 										},
 										{
@@ -43294,7 +43275,7 @@
 											"top": 3993,
 											"width": 898.74609375,
 											"height": 22,
-											"text": "+joinProject(researcher: Researcher, project: ResearchProject): void",
+											"text": "+joinProject(researcher, project: ResearchProject): void",
 											"horizontalAlignment": 0
 										},
 										{
@@ -43313,7 +43294,7 @@
 											"top": 4017,
 											"width": 898.74609375,
 											"height": 22,
-											"text": "+assignSupervisor(student: Student, supervisor: Researcher): void",
+											"text": "+assignSupervisor(student: Student, supervisor): void",
 											"horizontalAlignment": 0
 										},
 										{
@@ -43351,7 +43332,7 @@
 											"top": 4065,
 											"width": 898.74609375,
 											"height": 22,
-											"text": "+findTopCitedResearcher(): Researcher",
+											"text": "+findTopCitedResearcher(): null",
 											"horizontalAlignment": 0
 										}
 									],
@@ -43485,9 +43466,9 @@
 											"parentStyle": true,
 											"left": 4304,
 											"top": 3888,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -43740,9 +43721,9 @@
 											"parentStyle": true,
 											"left": -3888,
 											"top": 4656,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -43960,9 +43941,9 @@
 											"parentStyle": true,
 											"left": 2160,
 											"top": 2576,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -44448,9 +44429,9 @@
 											"parentStyle": true,
 											"left": -240,
 											"top": 1056,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -44747,9 +44728,9 @@
 											"parentStyle": true,
 											"left": -208,
 											"top": 1104,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -45027,9 +45008,9 @@
 											"parentStyle": true,
 											"left": -1216,
 											"top": 1872,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -45326,9 +45307,9 @@
 											"parentStyle": true,
 											"left": -1792,
 											"top": 1504,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -45606,9 +45587,9 @@
 											"parentStyle": true,
 											"left": -2496,
 											"top": 2272,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -45867,9 +45848,9 @@
 											"parentStyle": true,
 											"left": -112,
 											"top": 2496,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -46166,9 +46147,9 @@
 											"parentStyle": true,
 											"left": -704,
 											"top": 2176,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -46446,9 +46427,9 @@
 											"parentStyle": true,
 											"left": -752,
 											"top": 1008,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -46726,9 +46707,9 @@
 											"parentStyle": true,
 											"left": -1344,
 											"top": 1424,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -47006,9 +46987,9 @@
 											"parentStyle": true,
 											"left": -1984,
 											"top": 1840,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -55542,9 +55523,9 @@
 											"parentStyle": true,
 											"left": 432,
 											"top": -160,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -55739,9 +55720,9 @@
 											"parentStyle": true,
 											"left": -272,
 											"top": -112,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -55935,9 +55916,9 @@
 											"parentStyle": true,
 											"left": -304,
 											"top": -352,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -56131,9 +56112,9 @@
 											"parentStyle": true,
 											"left": -272,
 											"top": -576,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -56327,9 +56308,9 @@
 											"parentStyle": true,
 											"left": -208,
 											"top": -752,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -56523,9 +56504,9 @@
 											"parentStyle": true,
 											"left": 1456,
 											"top": -1280,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -56719,9 +56700,9 @@
 											"parentStyle": true,
 											"left": -1248,
 											"top": 400,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -56915,9 +56896,9 @@
 											"parentStyle": true,
 											"left": 480,
 											"top": -976,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -57111,9 +57092,9 @@
 											"parentStyle": true,
 											"left": 416,
 											"top": -1152,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -57307,9 +57288,9 @@
 											"parentStyle": true,
 											"left": 128,
 											"top": -1072,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -57503,9 +57484,9 @@
 											"parentStyle": true,
 											"left": -32,
 											"top": -1184,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -59020,9 +59001,9 @@
 											"parentStyle": true,
 											"left": -618,
 											"top": -204,
-											"width": 171.6279296875,
+											"width": 264.04296875,
 											"height": 22,
-											"text": "(from Model3)"
+											"text": "(from CLASS-DIAGRAM)"
 										},
 										{
 											"_type": "LabelView",
@@ -63009,9 +62990,7 @@
 										"$ref": "AAAAAAGeCQmqWTgYhaM="
 									},
 									"name": "researcher",
-									"type": {
-										"$ref": "AAAAAAGeCP1REPOKAlU="
-									}
+									"type": ""
 								},
 								{
 									"_type": "UMLParameter",
@@ -63069,9 +63048,7 @@
 										"$ref": "AAAAAAGeCQnDODlm7lw="
 									},
 									"name": "researcher",
-									"type": {
-										"$ref": "AAAAAAGeCP1REPOKAlU="
-									}
+									"type": ""
 								},
 								{
 									"_type": "UMLParameter",
@@ -64488,9 +64465,7 @@
 										"$ref": "AAAAAAGeCRdhz6dkh+Q="
 									},
 									"name": "researcher",
-									"type": {
-										"$ref": "AAAAAAGeCP1REPOKAlU="
-									}
+									"type": ""
 								},
 								{
 									"_type": "UMLParameter",
@@ -64529,9 +64504,7 @@
 										"$ref": "AAAAAAGeCRd9V6o4jHs="
 									},
 									"name": "researcher",
-									"type": {
-										"$ref": "AAAAAAGeCP1REPOKAlU="
-									}
+									"type": ""
 								},
 								{
 									"_type": "UMLParameter",
@@ -64581,9 +64554,7 @@
 										"$ref": "AAAAAAGeCReLH6qqyPU="
 									},
 									"name": "supervisor",
-									"type": {
-										"$ref": "AAAAAAGeCP1REPOKAlU="
-									}
+									"type": ""
 								},
 								{
 									"_type": "UMLParameter",
@@ -64638,9 +64609,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGeCRfFH67pb/o="
 									},
-									"type": {
-										"$ref": "AAAAAAGeCP1REPOKAlU="
-									},
+									"type": "",
 									"direction": "return"
 								}
 							]
