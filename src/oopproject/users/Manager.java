@@ -1,18 +1,27 @@
 package oopproject.users;
 
 import oopproject.academic.Course;
+import oopproject.academic.RegistrationRequest;
 import oopproject.enums.ManagerType;
-import oopproject.storage.DataStorage;
+import oopproject.enums.ReportType;
+import oopproject.enums.UserRole;
+import oopproject.exceptions.RegistrationException;
+import oopproject.teaching.EmployeeRequest;
+import oopproject.teaching.News;
+import oopproject.teaching.Report;
 
-import java.util.Date;
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 public class Manager extends Employee {
     private ManagerType type;
+    private final List<Report> reports = new ArrayList<>();
+    private final List<News> news = new ArrayList<>();
+    private final List<RegistrationRequest> registrationRequests = new ArrayList<>();
 
     public Manager() {
+        setRole(UserRole.MANAGER);
     }
 
     public Manager(String id,
@@ -25,6 +34,7 @@ public class Manager extends Employee {
                    ManagerType type) {
         super(id, login, password, firstName, lastName, salary, hireDate);
         this.type = type;
+        setRole(UserRole.MANAGER);
     }
 
     public ManagerType getType() {
@@ -35,10 +45,39 @@ public class Manager extends Employee {
         this.type = type;
     }
 
-    // Manager назначает преподавателя на курс
+    public void approveRegistration() {
+        System.out.println("Registration approved by manager " + getLogin());
+    }
+
+    public void approveRegistration(Student student, Course course) {
+        if (student == null || course == null) {
+            throw new RegistrationException(student == null ? null : student.getId(),
+                    course == null ? null : course.getCourseName(),
+                    "student and course must not be null");
+        }
+        student.registerForCourse(course);
+        System.out.println("Registration approved by manager " + getLogin());
+    }
+
+    public void approveRegistration(RegistrationRequest request) {
+        if (request == null) {
+            throw new RegistrationException(null, null, "registration request must not be null");
+        }
+        request.approve(this);
+        request.getStudent().registerForCourse(request.getCourse());
+    }
+
+    public void rejectRegistration(RegistrationRequest request) {
+        if (request != null) {
+            request.reject(this);
+        }
+    }
+
     public void assignCourseToTeacher(Course course, Teacher teacher) {
         if (course == null || teacher == null) {
-            throw new IllegalArgumentException("Course and teacher must not be null");
+            throw new RegistrationException(null,
+                    course == null ? null : course.getCourseName(),
+                    "course and teacher must not be null");
         }
 
         // Добавляем преподавателя в список instructors у Course
@@ -51,112 +90,33 @@ public class Manager extends Employee {
                 + " was assigned to course " + course.getCourseName());
     }
 
-    // Manager подтверждает регистрацию студента на курс
-    public void approveRegistration(Student student, Course course) {
-        if (student == null || course == null) {
-            throw new IllegalArgumentException("Student and course must not be null");
+    public void assignTeacher(Course course, Teacher teacher) {
+        assignCourseToTeacher(course, teacher);
+    }
+
+    public void addCourseForRegistration(Course course) {
+        if (course != null) {
+            course.setStatus(oopproject.enums.CourseStatus.OPEN_FOR_REGISTRATION);
         }
-
-        student.registerForCourse(course);
-
-        System.out.println("Registration approved: "
-                + student.getLogin() + " -> " + course.getCourseName());
     }
 
-    // Получить всех студентов из DataStorage
-    public List<Student> viewStudents() {
-        List<Student> students = new ArrayList<>();
+    public Report createReport(ReportType type, String content) {
+        Report report = new Report("REP-" + (reports.size() + 1), type, content);
+        reports.add(report);
+        return report;
+    }
 
-        for (User user : DataStorage.getInstance().getUsers()) {
-            if (user instanceof Student) {
-                students.add((Student) user);
-            }
+    public void manageNews(News item) {
+        if (item != null) {
+            news.add(item);
         }
-
-        return students;
     }
 
-    // Получить всех преподавателей из DataStorage
-    public List<Teacher> viewTeachers() {
-        List<Teacher> teachers = new ArrayList<>();
-
-        for (User user : DataStorage.getInstance().getUsers()) {
-            if (user instanceof Teacher) {
-                teachers.add((Teacher) user);
-            }
-        }
-
-        return teachers;
+    public List<EmployeeRequest> viewEmployeeRequests() {
+        return getRequests();
     }
 
-    // Студенты, зарегистрированные на конкретный курс
-    public List<Student> viewStudentsByCourse(Course course) {
-        if (course == null) {
-            throw new IllegalArgumentException("Course must not be null");
-        }
-
-        List<Student> result = new ArrayList<>();
-
-        for (Student student : viewStudents()) {
-            if (student.getRegisteredCourses().contains(course)) {
-                result.add(student);
-            }
-        }
-
-        return result;
-    }
-
-    // Студенты по GPA: от высокого к низкому
-    public List<Student> viewStudentsSortedByGpa() {
-        List<Student> students = viewStudents();
-
-        students.sort(Comparator.comparingDouble(Student::getGpa).reversed());
-
-        return students;
-    }
-
-    // Студенты по алфавиту: сначала фамилия, потом имя
-    public List<Student> viewStudentsSortedAlphabetically() {
-        List<Student> students = viewStudents();
-
-        students.sort(
-                Comparator.comparing(Student::getLastName)
-                        .thenComparing(Student::getFirstName)
-        );
-
-        return students;
-    }
-
-    // Студенты конкретного курса по алфавиту
-    public List<Student> viewStudentsByCourseSortedAlphabetically(Course course) {
-        List<Student> students = viewStudentsByCourse(course);
-
-        students.sort(
-                Comparator.comparing(Student::getLastName)
-                        .thenComparing(Student::getFirstName)
-        );
-
-        return students;
-    }
-
-    // Студенты конкретного курса по GPA
-    public List<Student> viewStudentsByCourseSortedByGpa(Course course) {
-        List<Student> students = viewStudentsByCourse(course);
-
-        students.sort(Comparator.comparingDouble(Student::getGpa).reversed());
-
-        return students;
-    }
-
-    // Преподаватели по алфавиту: сначала фамилия, потом имя
-    public List<Teacher> viewTeachersSortedAlphabetically() {
-        List<Teacher> teachers = viewTeachers();
-
-        teachers.sort(
-                Comparator.comparing(Teacher::getLastName)
-                        .thenComparing(Teacher::getFirstName)
-        );
-
-        return teachers;
+    public List<RegistrationRequest> getRegistrationRequests() {
+        return registrationRequests;
     }
 }

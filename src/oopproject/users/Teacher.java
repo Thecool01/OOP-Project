@@ -1,27 +1,44 @@
 package oopproject.users;
 
+import oopproject.academic.Course;
 import oopproject.academic.Mark;
 import oopproject.enums.TeacherTitle;
-import oopproject.storage.DataStorage;
-import oopproject.academic.Course;
+import oopproject.enums.UserRole;
+import oopproject.exceptions.MarkException;
+import oopproject.research.ResearchProfile;
 
-import java.util.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Teacher extends Employee {
+    private String teacherId;
     private TeacherTitle title;
+    private final List<Course> assignedCourses = new ArrayList<>();
+    private ResearchProfile researchProfile;
 
     // Список курсов, которые ведет преподаватель
     private final List<Course> courses = new ArrayList<>();
 
     public Teacher() {
+        setRole(UserRole.TEACHER);
     }
 
     public Teacher(String id, String login, String password, String firstName, String lastName,
                    double salary, Date hireDate, TeacherTitle title) {
         super(id, login, password, firstName, lastName, salary, hireDate);
+        this.teacherId = id;
         this.title = title;
+        setRole(UserRole.TEACHER);
+    }
+
+    public String getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(String teacherId) {
+        this.teacherId = teacherId;
+        setEmployeeId(teacherId);
     }
 
     public TeacherTitle getTitle() {
@@ -32,93 +49,57 @@ public class Teacher extends Employee {
         this.title = title;
     }
 
-    // Получить все курсы преподавателя
-    public List<Course> getCourses() {
-        return courses;
+    public boolean isProfessor() {
+        return title == TeacherTitle.PROFESSOR;
     }
 
-    // Добавить курс преподавателю
-    public void addCourse(Course course) {
-        if (course != null && !courses.contains(course)) {
-            courses.add(course);
+    public List<Course> viewAssignedCourses() {
+        return assignedCourses;
+    }
+
+    public List<Course> getAssignedCourses() {
+        return assignedCourses;
+    }
+
+    public void addAssignedCourse(Course course) {
+        if (course != null && !assignedCourses.contains(course)) {
+            assignedCourses.add(course);
         }
     }
 
-    // Поставить оценку студенту по конкретному курсу
+    public List<Student> viewStudents(Course course) {
+        return course == null ? List.of() : course.getStudents();
+    }
+
+    public void putMark(Student student, Mark mark) {
+        if (student == null || mark == null) {
+            throw new MarkException(student == null ? null : student.getId(), null, "student and mark must not be null");
+        }
+        System.out.println("Mark was assigned to student " + student.getLogin());
+    }
+
     public void putMark(Student student, Course course, Mark mark) {
-
         if (student == null || course == null || mark == null) {
-            throw new IllegalArgumentException("Student, course and mark must not be null");
+            throw new MarkException(student == null ? null : student.getId(),
+                    course == null ? null : course.getCourseName(),
+                    "student, course and mark must not be null");
         }
-
-        // Проверка: ведет ли преподаватель этот курс
-        if (!courses.contains(course)) {
-            throw new IllegalArgumentException("Teacher does not teach this course");
-        }
-
-        // Проверка: зарегистрирован ли студент на курс
-        if (!student.getRegisteredCourses().contains(course)) {
-            throw new IllegalArgumentException("Student is not registered for this course");
-        }
-
-        // Сохраняем оценку студенту
         student.addMark(course, mark);
-
-        System.out.println("Mark was assigned to student "
-                + student.getLogin()
-                + " for course "
-                + course.getCourseName());
+        System.out.println("Mark was assigned to student " + student.getLogin());
     }
 
-    // Просмотр курсов преподавателя
-    public void viewCourses() {
-
-        if (courses.isEmpty()) {
-            System.out.println("No courses assigned.");
-            return;
-        }
-
-        for (Course course : courses) {
-            System.out.println(course.getCourseName());
-        }
+    public void manageCourse(Course course) {
+        addAssignedCourse(course);
     }
 
-    // Просмотр студентов конкретного курса
-    public void viewStudents(Course course) {
-
-        if (course == null) {
-            throw new IllegalArgumentException("Course must not be null");
-        }
-
-        System.out.println("Students for course: " + course.getCourseName());
-
-        boolean found = false;
-
-        // Получаем всех пользователей из DataStorage
-        for (User user : DataStorage.getInstance().getUsers()) {
-
-            // Проверяем, является ли пользователь студентом
-            if (user instanceof Student) {
-
-                Student student = (Student) user;
-
-                // Проверяем, зарегистрирован ли студент на курс
-                if (student.getRegisteredCourses().contains(course)) {
-                    System.out.println(
-                            student.getFirstName() + " " + student.getLastName()
-                    );
-                    found = true;
-                }
-            }
-        }
-
-        if (!found) {
-            System.out.println("No students registered for this course.");
-        }
+    public ResearchProfile getResearchProfile() {
+        return researchProfile;
     }
 
+    public void setResearchProfile(ResearchProfile researchProfile) {
+        this.researchProfile = researchProfile;
+    }
 
-    // Метод для отправки жалобы
     public void sendComplaint() {
         System.out.println("Complaint was sent by teacher " + getLogin());
     }

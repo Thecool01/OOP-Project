@@ -3,14 +3,16 @@ package oopproject.research;
 import java.io.Serializable;
 import java.util.Date;
 
-public class ResearchPaper implements Serializable {
+public class ResearchPaper implements Serializable, Comparable<ResearchPaper> {
+    private String paperId;
     private String title;
     private String authors;
     private String journal;
     private int pages;
-    private Date datePublished;
+    private Date publicationDate;
     private int citations;
     private String doi;
+    private String publisher;
 
     public ResearchPaper() {
     }
@@ -21,9 +23,17 @@ public class ResearchPaper implements Serializable {
         this.authors = authors;
         this.journal = journal;
         this.pages = pages;
-        this.datePublished = datePublished;
+        this.publicationDate = datePublished;
         this.citations = citations;
         this.doi = doi;
+    }
+
+    public String getPaperId() {
+        return paperId;
+    }
+
+    public void setPaperId(String paperId) {
+        this.paperId = paperId;
     }
 
     public String getTitle() {
@@ -59,11 +69,19 @@ public class ResearchPaper implements Serializable {
     }
 
     public Date getDatePublished() {
-        return datePublished;
+        return publicationDate;
     }
 
     public void setDatePublished(Date datePublished) {
-        this.datePublished = datePublished;
+        this.publicationDate = datePublished;
+    }
+
+    public Date getPublicationDate() {
+        return publicationDate;
+    }
+
+    public void setPublicationDate(Date publicationDate) {
+        this.publicationDate = publicationDate;
     }
 
     public int getCitations() {
@@ -80,6 +98,23 @@ public class ResearchPaper implements Serializable {
 
     public void setDoi(String doi) {
         this.doi = doi;
+    }
+
+    public String getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
+    }
+
+    public int getLength() {
+        return pages;
+    }
+
+    @Override
+    public int compareTo(ResearchPaper other) {
+        return title == null ? -1 : title.compareTo(other == null ? "" : other.title);
     }
 
     @Override
