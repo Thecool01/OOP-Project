@@ -63,15 +63,15 @@ public class Manager extends Employee {
             );
         }
 
-        request.approve(this);
-
         if (!registrationRequests.contains(request)) {
             registrationRequests.add(request);
         }
 
         if (request.getStudent() != null && request.getCourse() != null) {
-            request.getStudent().registerForCourse(request.getCourse());
+            request.getStudent().enrollInCourse(request.getCourse());
         }
+
+        request.approve(this);
     }
 
     public void rejectRegistration(RegistrationRequest request) {

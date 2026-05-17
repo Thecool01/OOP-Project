@@ -2,6 +2,7 @@ package oopproject.users;
 
 import oopproject.academic.Course;
 import oopproject.academic.Mark;
+import oopproject.academic.RegistrationRequest;
 import oopproject.academic.Transcript;
 import oopproject.enums.UserRole;
 import oopproject.exceptions.RegistrationException;
@@ -91,19 +92,28 @@ public class Student extends User {
         return availableCourses == null ? List.of() : availableCourses;
     }
 
-    public void registerForCourse(Course c) {
+    public RegistrationRequest registerForCourse(Course c) {
+        validateCourseRegistration(c);
+        return new RegistrationRequest(getId() + "_" + c.getCourseId(), this, c);
+    }
+
+    public void enrollInCourse(Course c) {
+        validateCourseRegistration(c);
+        registeredCourses.add(c);
+        c.addStudent(this);
+        creditsEnrolled += c.getCredits();
+    }
+
+    private void validateCourseRegistration(Course c) {
         if (c == null) {
             throw new RegistrationException(getId(), null, "course is null");
         }
         if (registeredCourses.contains(c)) {
-            return;
+            throw new RegistrationException(getId(), c.getCourseName(), "student is already registered for this course");
         }
         if (creditsEnrolled + c.getCredits() > MAX_CREDITS) {
             throw new RegistrationException(getId(), c.getCourseName(), "student cannot register for more than 21 credits");
         }
-        registeredCourses.add(c);
-        c.addStudent(this);
-        creditsEnrolled += c.getCredits();
     }
 
     public Researcher getSupervisor() {

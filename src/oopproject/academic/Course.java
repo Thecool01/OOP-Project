@@ -35,6 +35,12 @@ public class Course implements Serializable {
         this.credits = credits;
     }
 
+    public Course(String courseId, String courseName, int credits) {
+        this.courseId = courseId;
+        this.title = courseName;
+        this.credits = credits;
+    }
+
     public String getCourseId() {
         return courseId;
     }
@@ -165,12 +171,12 @@ public class Course implements Serializable {
         if (!(o instanceof Course course)) {
             return false;
         }
-        return Objects.equals(courseId, course.courseId);
+        return courseId != null && Objects.equals(courseId, course.courseId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(courseId);
+        return courseId == null ? System.identityHashCode(this) : Objects.hash(courseId);
     }
 
     @Override

@@ -91,12 +91,12 @@ public class RegistrationRequest implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof RegistrationRequest that)) return false;
-        return Objects.equals(requestId, that.requestId);
+        return requestId != null && Objects.equals(requestId, that.requestId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(requestId);
+        return requestId == null ? System.identityHashCode(this) : Objects.hash(requestId);
     }
 
     @Override
