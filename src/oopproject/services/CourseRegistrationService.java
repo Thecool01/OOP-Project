@@ -29,7 +29,7 @@ public class CourseRegistrationService {
     public void approve(RegistrationRequest request, Manager manager) {
         if (request != null) {
             request.approve(manager);
-            request.getStudent().registerForCourse(request.getCourse());
+            request.getStudent().enrollInCourse(request.getCourse());
         }
     }
 

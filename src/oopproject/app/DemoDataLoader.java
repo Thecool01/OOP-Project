@@ -22,7 +22,7 @@ public class DemoDataLoader {
                 400000, new Date());
         Student student = new Student("S-1", "student", "pass", "Demo", "Student",
                 1, 3.5, 0, "CS");
-        Course course = new Course("Object-Oriented Programming", 5);
+        Course course = new Course("CS101", "Object-Oriented Programming", 5);
 
         course.addInstructor(professor);
         system.addUser(professor);
@@ -42,7 +42,7 @@ public class DemoDataLoader {
                 400000, new Date());
         Student student = new Student("S-1", "student", "pass", "Demo", "Student",
                 1, 3.5, 0, "CS");
-        Course course = new Course("Object-Oriented Programming", 5);
+        Course course = new Course("CS101", "Object-Oriented Programming", 5);
 
         course.addInstructor(professor);
         storage.addUser(professor);

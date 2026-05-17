@@ -119,6 +119,21 @@ public class Student extends User {
         return new RegistrationRequest(getId() + "_" + c.getCourseId(), this, c);
     }
 
+    public void enrollInCourse(Course c) {
+        if (c == null) {
+            throw new CourseNotFoundException(getId(), null);
+        }
+        if (registeredCourses.contains(c)) {
+            throw new CourseAlreadyRegisteredException(getId(), c.getCourseName());
+        }
+        if (creditsEnrolled + c.getCredits() > MAX_CREDITS) {
+            throw new CreditLimitExceededException(getId(), c.getCourseName());
+        }
+        registeredCourses.add(c);
+        creditsEnrolled += c.getCredits();
+        c.addStudent(this);
+    }
+
     public boolean canRegister(Course c) {
         if (c == null) return false;
         if (registeredCourses.contains(c)) return false;

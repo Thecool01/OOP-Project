@@ -101,7 +101,7 @@ public class Mark implements Serializable, Comparable<Mark> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Mark mark)) return false;
-        return Objects.equals(markId, mark.markId);
+        return markId != null && Objects.equals(markId, mark.markId);
     }
 
     @Override

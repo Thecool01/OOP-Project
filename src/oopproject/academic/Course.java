@@ -151,7 +151,7 @@ public class Course implements Serializable {
         if (!(o instanceof Course course)) {
             return false;
         }
-        return Objects.equals(courseId, course.courseId);
+        return courseId != null && Objects.equals(courseId, course.courseId);
     }
 
     @Override
