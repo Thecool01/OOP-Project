@@ -6,19 +6,19 @@ import oopproject.enums.TeacherTitle;
 import oopproject.enums.UserRole;
 import oopproject.exceptions.MarkException;
 import oopproject.research.ResearchProfile;
+import oopproject.teaching.EmployeeRequest;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.io.Serial;
+import java.util.*;
 
 public class Teacher extends Employee {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private String teacherId;
     private TeacherTitle title;
     private final List<Course> assignedCourses = new ArrayList<>();
     private ResearchProfile researchProfile;
-
-    // Список курсов, которые ведет преподаватель
-    private final List<Course> courses = new ArrayList<>();
 
     public Teacher() {
         setRole(UserRole.TEACHER);
@@ -54,11 +54,11 @@ public class Teacher extends Employee {
     }
 
     public List<Course> viewAssignedCourses() {
-        return assignedCourses;
+        return Collections.unmodifiableList(assignedCourses);
     }
 
     public List<Course> getAssignedCourses() {
-        return assignedCourses;
+        return Collections.unmodifiableList(assignedCourses);
     }
 
     public void addAssignedCourse(Course course) {
@@ -67,24 +67,48 @@ public class Teacher extends Employee {
         }
     }
 
-    public List<Student> viewStudents(Course course) {
-        return course == null ? List.of() : course.getStudents();
+    public boolean isAssignedToCourse(Course course) {
+        return assignedCourses.contains(course);
     }
 
-    public void putMark(Student student, Mark mark) {
-        if (student == null || mark == null) {
-            throw new MarkException(student == null ? null : student.getId(), null, "student and mark must not be null");
+    public List<Student> viewStudents(Course course) {
+        if (course == null || !assignedCourses.contains(course)) {
+            return Collections.emptyList();
         }
-        System.out.println("Mark was assigned to student " + student.getLogin());
+
+        return course.getStudents();
     }
 
     public void putMark(Student student, Course course, Mark mark) {
         if (student == null || course == null || mark == null) {
-            throw new MarkException(student == null ? null : student.getId(),
-                    course == null ? null : course.getCourseName(),
-                    "student, course and mark must not be null");
+            throw new MarkException(
+                    student == null ? "unknown" : student.getId(),
+                    course == null ? "unknown" : course.getTitle(),
+                    "student, course and mark must not be null"
+            );
         }
+
+        if (!assignedCourses.contains(course)) {
+            throw new MarkException(
+                    student.getId(),
+                    course.getTitle(),
+                    "teacher is not assigned to this course"
+            );
+        }
+
+        if (!course.hasStudent(student)) {
+            throw new MarkException(
+                    student.getId(),
+                    course.getTitle(),
+                    "student is not registered for this course"
+            );
+        }
+
+        mark.setStudent(student);
+        mark.setCourse(course);
+
         student.addMark(course, mark);
+
         System.out.println("Mark was assigned to student " + student.getLogin());
     }
 
@@ -100,7 +124,28 @@ public class Teacher extends Employee {
         this.researchProfile = researchProfile;
     }
 
-    public void sendComplaint() {
-        System.out.println("Complaint was sent by teacher " + getLogin());
+    public EmployeeRequest sendComplaint(String text) {
+        return sendRequest(text);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Teacher teacher)) return false;
+        return Objects.equals(teacherId, teacher.teacherId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(teacherId);
+    }
+
+    @Override
+    public String toString() {
+        return "Teacher{" +
+                "teacherId='" + teacherId + '\'' +
+                ", title=" + title +
+                ", assignedCourses=" + assignedCourses.size() +
+                '}';
     }
 }
