@@ -3,6 +3,8 @@ package oopproject.academic;
 import oopproject.users.Student;
 
 import java.io.Serializable;
+import java.util.Objects;
+import oopproject.users.Student;
 
 public class Mark implements Serializable, Comparable<Mark> {
     private String markId;
@@ -96,11 +98,28 @@ public class Mark implements Serializable, Comparable<Mark> {
         return Double.compare(calculateTotal(), other == null ? 0 : other.calculateTotal());
     }
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Mark mark)) return false;
+        return markId != null && Objects.equals(markId, mark.markId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(markId);
+    }
+
     @Override
     public String toString() {
         return "Mark{" +
-                "markId='" + markId + '\'' +
-                ", total=" + calculateTotal() +
-                '}';
+            "student=" + (student == null ? "null" : student.getId()) +
+            ", course=" + (course == null ? "null" : course.getCourseName()) +
+            ", first=" + firstAttestation +
+            ", second=" + secondAttestation +
+            ", final=" + finalExam +
+            ", total=" + calculateTotal() +
+            '}';
     }
 }

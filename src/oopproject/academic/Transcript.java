@@ -1,10 +1,10 @@
 package oopproject.academic;
 
-import oopproject.users.Student;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import oopproject.users.Student;
 
 public class Transcript implements Serializable {
     private Student student;
@@ -44,6 +44,32 @@ public class Transcript implements Serializable {
     }
 
     public void printTranscript() {
-        marks.forEach(System.out::println);
+        System.out.println("Transcript for " + 
+            (student == null ? "unknown" : student.getFirstName()));
+        marks.forEach(mark -> System.out.println(
+            mark.getCourse().getTitle() + ": " + mark.calculateTotal()
+        ));
+        System.out.println("GPA: " + String.format("%.2f", calculateGPA()));
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Transcript t)) return false;
+        return Objects.equals(student, t.student);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(student);
+    }
+
+    @Override
+    public String toString() {
+        return "Transcript{" +
+            "student=" + (student == null ? "null" : student.getId()) +
+            ", marks=" + marks.size() +
+            ", gpa=" + String.format("%.2f", calculateGPA()) +
+            '}';
+}
 }

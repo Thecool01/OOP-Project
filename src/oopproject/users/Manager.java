@@ -49,7 +49,7 @@ public class Manager extends Employee {
                     course == null ? null : course.getCourseName(),
                     "student and course must not be null");
         }
-        student.registerForCourse(course);
+        student.enrollInCourse(course);
         System.out.println("Registration approved by manager " + getLogin());
     }
 
@@ -58,7 +58,7 @@ public class Manager extends Employee {
             throw new RegistrationException(null, null, "registration request must not be null");
         }
         request.approve(this);
-        request.getStudent().registerForCourse(request.getCourse());
+        request.getStudent().enrollInCourse(request.getCourse());
     }
 
     public void rejectRegistration(RegistrationRequest request) {

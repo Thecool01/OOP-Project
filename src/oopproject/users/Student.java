@@ -1,17 +1,22 @@
 package oopproject.users;
 
-import oopproject.academic.Course;
-import oopproject.academic.Mark;
-import oopproject.academic.Transcript;
-import oopproject.enums.UserRole;
-import oopproject.exceptions.RegistrationException;
-import oopproject.research.ResearchProfile;
-import oopproject.research.Researcher;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import oopproject.academic.Course;
+import oopproject.academic.Mark;
+import oopproject.academic.RegistrationRequest;
+import oopproject.academic.Transcript;
+import oopproject.enums.UserRole;
+import oopproject.exceptions.CourseAlreadyRegisteredException;
+import oopproject.exceptions.CourseNotFoundException;
+import oopproject.exceptions.CreditLimitExceededException;
+import oopproject.exceptions.RegistrationException;
+import oopproject.exceptions.RegistrationNotFoundException;
+import oopproject.research.ResearchProfile;
+import oopproject.research.Researcher;
 
 public class Student extends User {
     private static final int MAX_CREDITS = 21;
@@ -24,6 +29,7 @@ public class Student extends User {
     private Transcript transcript = new Transcript(this);
     private ResearchProfile researchProfile;
     private Researcher supervisor;
+    private int failCount;
     private final List<Course> registeredCourses = new ArrayList<>();
     private final Map<Course, Mark> marks = new HashMap<>();
 
@@ -49,6 +55,7 @@ public class Student extends User {
     public void setStudentId(String studentId) {
         this.studentId = studentId;
         setId(studentId);
+        setRole(UserRole.STUDENT);
     }
 
     public int getYearOfStudy() {
@@ -83,6 +90,14 @@ public class Student extends User {
         this.major = major;
     }
 
+    public int getFailCount() {
+        return failCount;
+    }
+
+    public void setFailCount(int failCount) {
+        this.failCount = failCount;
+    }
+
     public List<Course> getRegisteredCourses() {
         return registeredCourses;
     }
@@ -91,19 +106,46 @@ public class Student extends User {
         return availableCourses == null ? List.of() : availableCourses;
     }
 
-    public void registerForCourse(Course c) {
+    public RegistrationRequest registerForCourse(Course c) {
         if (c == null) {
-            throw new RegistrationException(getId(), null, "course is null");
+            throw new CourseNotFoundException(getId(), null);
         }
         if (registeredCourses.contains(c)) {
-            return;
+            throw new CourseAlreadyRegisteredException(getId(), c.getCourseName());
         }
         if (creditsEnrolled + c.getCredits() > MAX_CREDITS) {
-            throw new RegistrationException(getId(), c.getCourseName(), "student cannot register for more than 21 credits");
+            throw new CreditLimitExceededException(getId(), c.getCourseName());
+        }
+        return new RegistrationRequest(getId() + "_" + c.getCourseId(), this, c);
+    }
+
+    public void enrollInCourse(Course c) {
+        if (c == null) {
+            throw new CourseNotFoundException(getId(), null);
+        }
+        if (registeredCourses.contains(c)) {
+            throw new CourseAlreadyRegisteredException(getId(), c.getCourseName());
+        }
+        if (creditsEnrolled + c.getCredits() > MAX_CREDITS) {
+            throw new CreditLimitExceededException(getId(), c.getCourseName());
         }
         registeredCourses.add(c);
-        c.addStudent(this);
         creditsEnrolled += c.getCredits();
+        c.addStudent(this);
+    }
+
+    public boolean canRegister(Course c) {
+        if (c == null) return false;
+        if (registeredCourses.contains(c)) return false;
+        return creditsEnrolled + c.getCredits() <= MAX_CREDITS;
+    }
+
+    public void viewRegistrationStatus(RegistrationRequest request) {
+        if (request == null) {
+            throw new RegistrationNotFoundException(getId(), null);
+        }
+        System.out.println("Registration status for " + 
+            request.getCourse().getTitle() + ": " + request.getStatus());
     }
 
     public Researcher getSupervisor() {
@@ -156,5 +198,28 @@ public class Student extends User {
 
     public void rateTeacher(Teacher teacher, int rating) {
         System.out.println("Teacher " + (teacher == null ? "unknown" : teacher.getLogin()) + " rated as " + rating);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Student s)) return false;
+        return Objects.equals(studentId, s.studentId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(studentId);
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+            "studentId='" + studentId + '\'' +
+            ", name=" + getFirstName() + " " + getLastName() +
+            ", major='" + major + '\'' +
+            ", gpa=" + gpa +
+            ", credits=" + creditsEnrolled +
+            '}';
     }
 }
