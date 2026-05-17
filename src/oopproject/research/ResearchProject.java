@@ -61,7 +61,15 @@ public class ResearchProject implements Serializable {
     }
 
     public void addParticipant(Researcher researcher) {
-        if (researcher != null && !participants.contains(researcher)) {
+        if (researcher == null) {
+            return;
+        }
+
+        if (researcher.getHIndex() < 3) {
+            throw new ResearchException(this.topic, "Researcher h-index is below 3! Cannot add to this project.");
+        }
+
+        if (!participants.contains(researcher)) {
             participants.add(researcher);
         }
     }

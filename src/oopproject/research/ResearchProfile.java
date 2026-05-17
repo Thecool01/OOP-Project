@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import oopproject.exceptions.ResearchException;
 
 public class ResearchProfile implements Researcher, Serializable {
     private User owner;
@@ -29,7 +30,15 @@ public class ResearchProfile implements Researcher, Serializable {
     }
 
     public void addPaper(ResearchPaper paper) {
-        if (paper != null && !papers.contains(paper)) {
+        if (paper == null) {
+            return;
+        }
+
+        if (paper.getPages() <= 0 || paper.getCitations() < 0) {
+            throw new ResearchException("Paper Error", "Invalid research paper data: check page count or citations!");
+        }
+
+        if (!papers.contains(paper)) {
             papers.add(paper);
             hIndex = calculateHIndex();
         }
