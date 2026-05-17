@@ -9,6 +9,7 @@ import oopproject.academic.Course;
 import oopproject.academic.Mark;
 import oopproject.academic.RegistrationRequest;
 import oopproject.academic.Transcript;
+import oopproject.enums.CourseStatus;
 import oopproject.enums.UserRole;
 import oopproject.exceptions.CourseAlreadyRegisteredException;
 import oopproject.exceptions.CourseNotFoundException;
@@ -126,6 +127,9 @@ public class Student extends User {
         if (registeredCourses.contains(c)) {
             throw new RegistrationException(getId(), c.getCourseName(), "student is already registered for this course");
         }
+        if (c.getStatus() != CourseStatus.OPEN_FOR_REGISTRATION) {
+            throw new RegistrationException(getId(), c.getCourseName(), "course is not open for registration");
+        }
         if (creditsEnrolled + c.getCredits() > MAX_CREDITS) {
             throw new CreditLimitExceededException(getId(), c.getCourseName());
         }
@@ -134,6 +138,7 @@ public class Student extends User {
     public boolean canRegister(Course c) {
         if (c == null) return false;
         if (registeredCourses.contains(c)) return false;
+        if (c.getStatus() != CourseStatus.OPEN_FOR_REGISTRATION) return false;
         return creditsEnrolled + c.getCredits() <= MAX_CREDITS;
     }
 

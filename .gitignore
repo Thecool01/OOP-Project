@@ -4,6 +4,7 @@
 *.iws
 *.ipr
 out/
+*.ser
 
 # OS generated files
 .DS_Store
