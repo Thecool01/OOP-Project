@@ -18,6 +18,7 @@ import oopproject.research.Researcher;
 import oopproject.users.User;
 
 public class DataStorage implements Serializable {
+    private static final long serialVersionUID = 1L;
     private static final String STORAGE_FILE = "data.ser";
     private static final DataStorage INSTANCE = new DataStorage();
 
@@ -93,7 +94,12 @@ public class DataStorage implements Serializable {
     }
 
     public void addLog(String username, String action) {
-        actionLogs.add(new LogEntry(username, action));
+        User userObj = users.stream()
+                .filter(u -> u != null && username != null && username.equals(u.getLogin()))
+                .findFirst()
+                .orElse(null);
+
+        actionLogs.add(new LogEntry(userObj, action));
     }
 
     public User findUserById(String id) {

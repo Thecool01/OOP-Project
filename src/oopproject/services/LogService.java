@@ -13,8 +13,7 @@ public class LogService {
     }
 
     public void addLog(User user, String action) {
-        String username = (user != null) ? user.getUsername() : "Unknown User";
-        LogEntry newEntry = new LogEntry(username, action);
+        LogEntry newEntry = new LogEntry(user, action);
         this.logs.add(newEntry);
     }
 

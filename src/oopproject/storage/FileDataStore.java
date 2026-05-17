@@ -1,17 +1,11 @@
 package oopproject.storage;
 
+import java.io.*;
 import oopproject.exceptions.DataStorageException;
 import oopproject.system.UniversitySystem;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-
-public class FileDataStore implements DataStore, Serializable {
-    private String filePath;
+public class FileDataStore implements DataStore {
+    private String filePath = "university-system.ser";
 
     public FileDataStore() {
         this("university-system.ser");
@@ -29,8 +23,12 @@ public class FileDataStore implements DataStore, Serializable {
         this.filePath = filePath;
     }
 
+
     @Override
     public void save(UniversitySystem system) {
+        if (system == null) {
+            throw new IllegalArgumentException("System cannot be null");
+        }
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(filePath))) {
             outputStream.writeObject(system);
         } catch (IOException e) {
@@ -40,7 +38,12 @@ public class FileDataStore implements DataStore, Serializable {
 
     @Override
     public UniversitySystem load() {
-        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(filePath))) {
+        File file = new File(filePath);
+        if (!file.exists()) {
+            return UniversitySystem.getInstance();
+        }
+
+        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(file))) {
             return (UniversitySystem) inputStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
             throw new DataStorageException(filePath, "failed to load system", e);
