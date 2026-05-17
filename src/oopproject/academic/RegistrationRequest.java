@@ -4,15 +4,20 @@ import oopproject.enums.RegistrationStatus;
 import oopproject.users.Manager;
 import oopproject.users.Student;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class RegistrationRequest implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private String requestId;
     private Student student;
     private Course course;
     private RegistrationStatus status = RegistrationStatus.PENDING;
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private final LocalDateTime createdAt = LocalDateTime.now();
     private Manager approvedBy;
 
     public RegistrationRequest() {
@@ -56,10 +61,6 @@ public class RegistrationRequest implements Serializable {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
     public Manager getApprovedBy() {
         return approvedBy;
     }
@@ -76,5 +77,36 @@ public class RegistrationRequest implements Serializable {
 
     public boolean isPending() {
         return status == RegistrationStatus.PENDING;
+    }
+
+    public boolean isApproved() {
+        return status == RegistrationStatus.APPROVED;
+    }
+
+    public boolean isRejected() {
+        return status == RegistrationStatus.REJECTED;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof RegistrationRequest that)) return false;
+        return Objects.equals(requestId, that.requestId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(requestId);
+    }
+
+    @Override
+    public String toString() {
+        return "RegistrationRequest{" +
+                "requestId='" + requestId + '\'' +
+                ", student=" + student +
+                ", course=" + course +
+                ", status=" + status +
+                ", createdAt=" + createdAt +
+                '}';
     }
 }
