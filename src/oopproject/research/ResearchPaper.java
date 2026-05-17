@@ -112,10 +112,6 @@ public class ResearchPaper implements Serializable, Comparable<ResearchPaper> {
         return pages;
     }
 
-    @Override
-    public int compareTo(ResearchPaper other) {
-        return title == null ? -1 : title.compareTo(other == null ? "" : other.title);
-    }
 
     @Override
     public String toString() {
@@ -125,5 +121,12 @@ public class ResearchPaper implements Serializable, Comparable<ResearchPaper> {
                 ", journal='" + journal + '\'' +
                 ", citations=" + citations +
                 '}';
+    }
+    @Override
+    public int compareTo(ResearchPaper other) {
+        if (other == null) {
+            return 1;
+        }
+        return Integer.compare(other.getCitations(), this.citations);
     }
 }

@@ -35,7 +35,7 @@ public class Teacher extends Employee {
 
     private void ensureResearchProfileForProfessor() {
         if (isProfessor() && researchProfile == null) {
-            researchProfile = new ResearchProfile();
+            researchProfile = new ResearchProfile(this);
         }
     }
 
@@ -130,6 +130,9 @@ public class Teacher extends Employee {
 
     public void setResearchProfile(ResearchProfile researchProfile) {
         this.researchProfile = researchProfile;
+        if (this.researchProfile != null && this.researchProfile.getOwner() == null) {
+            this.researchProfile.setOwner(this);
+        }
         ensureResearchProfileForProfessor();
     }
 

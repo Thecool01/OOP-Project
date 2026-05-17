@@ -1,7 +1,7 @@
 package oopproject.research;
 
-import oopproject.exceptions.ResearchException;
 import oopproject.enums.ResearchProjectStatus;
+import oopproject.exceptions.NotResearcherException;
 import oopproject.users.User;
 
 import java.io.Serializable;
@@ -61,18 +61,26 @@ public class ResearchProject implements Serializable {
     }
 
     public void addParticipant(Researcher researcher) {
-        if (researcher != null && !participants.contains(researcher)) {
+        if (researcher == null) {
+            throw new NotResearcherException("unknown");
+        }
+
+        if (!participants.contains(researcher)) {
             participants.add(researcher);
         }
     }
 
     public void addParticipant(User user) {
         String login = user == null ? "unknown" : user.getLogin();
-        throw new ResearchException(topic, "user '" + login + "' is not decorated as a researcher");
+        throw new NotResearcherException(login);
     }
 
     public void removeParticipant(Researcher researcher) {
         participants.remove(researcher);
+    }
+
+    public boolean containsResearcher(Researcher researcher) {
+        return participants.contains(researcher);
     }
 
     public ResearchProjectStatus getStatus() {
