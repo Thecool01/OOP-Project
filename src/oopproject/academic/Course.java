@@ -10,10 +10,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.List;
-import java.util.Objects;
-import oopproject.enums.CourseStatus;
-import oopproject.users.Student;
-import oopproject.users.Teacher;
 
 public class Course implements Serializable {
     @Serial
@@ -31,12 +27,6 @@ public class Course implements Serializable {
     private final List<Lesson> lessons = new ArrayList<>();
 
     public Course() {
-    }
-
-    public Course(String courseId, String courseName, int credits) {
-        this.courseId = courseId;
-        this.title = courseName;
-        this.credits = credits;
     }
 
     public Course(String courseId, String courseName, int credits) {
