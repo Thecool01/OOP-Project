@@ -2,11 +2,17 @@ package oopproject.academic;
 
 import oopproject.users.Student;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class Transcript implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private Student student;
     private final List<Mark> marks = new ArrayList<>();
 
@@ -26,7 +32,7 @@ public class Transcript implements Serializable {
     }
 
     public List<Mark> getMarks() {
-        return marks;
+        return Collections.unmodifiableList(marks);
     }
 
     public void addMark(Mark mark) {
@@ -45,5 +51,33 @@ public class Transcript implements Serializable {
 
     public void printTranscript() {
         marks.forEach(System.out::println);
+    }
+
+    public Mark getMarkByCourse(Course course) {
+        return marks.stream()
+                .filter(mark -> Objects.equals(mark.getCourse(), course))
+                .findFirst()
+                .orElse(null);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Transcript that)) return false;
+        return Objects.equals(student, that.student);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(student);
+    }
+
+    @Override
+    public String toString() {
+        return "Transcript{" +
+                "student=" + student +
+                ", marksCount=" + marks.size() +
+                ", GPA=" + calculateGPA() +
+                '}';
     }
 }
