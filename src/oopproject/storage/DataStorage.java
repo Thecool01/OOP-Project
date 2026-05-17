@@ -99,7 +99,7 @@ public class DataStorage implements Serializable {
                 .findFirst()
                 .orElse(null);
 
-        actionLogs.add(new LogEntry(userObj, action));
+        actionLogs.add(userObj == null ? new LogEntry(username, action) : new LogEntry(userObj, action));
     }
 
     public User findUserById(String id) {

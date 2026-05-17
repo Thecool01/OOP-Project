@@ -127,7 +127,7 @@ public class UniversitySystem implements Serializable {
                 .findFirst()
                 .orElse(null);
 
-        logs.add(new LogEntry(userObj, action));
+        logs.add(userObj == null ? new LogEntry(username, action) : new LogEntry(userObj, action));
     }
 
     public User findUserById(String id) {

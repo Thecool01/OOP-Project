@@ -3,6 +3,8 @@ package oopproject.app;
 import oopproject.academic.Course;
 import oopproject.enums.ManagerType;
 import oopproject.enums.TeacherTitle;
+import oopproject.exceptions.UserNotFoundException;
+import oopproject.facade.UniversityFacade;
 import oopproject.storage.DataStorage;
 import oopproject.system.UniversitySystem;
 import oopproject.users.Admin;
@@ -22,7 +24,7 @@ public class DemoDataLoader {
                 400000, new Date());
         Student student = new Student("S-1", "student", "pass", "Demo", "Student",
                 1, 3.5, 0, "CS");
-        Course course = new Course("Object-Oriented Programming", 5);
+        Course course = new Course("CS101", "Object-Oriented Programming", 5);
 
         course.addInstructor(professor);
         system.addUser(professor);
@@ -42,7 +44,7 @@ public class DemoDataLoader {
                 400000, new Date());
         Student student = new Student("S-1", "student", "pass", "Demo", "Student",
                 1, 3.5, 0, "CS");
-        Course course = new Course("Object-Oriented Programming", 5);
+        Course course = new Course("CS101", "Object-Oriented Programming", 5);
 
         course.addInstructor(professor);
         storage.addUser(professor);
@@ -51,5 +53,32 @@ public class DemoDataLoader {
         storage.addUser(student);
         storage.addCourse(course);
         storage.addLog("system", "demo data loaded");
+    }
+
+    public void loadDemoData(UniversityFacade facade) {
+        Teacher professor = new Teacher("T-1", "professor", "pass", "Demo", "Professor",
+                500000, new Date(), TeacherTitle.PROFESSOR);
+        Manager manager = new Manager("M-1", "manager", "pass", "Demo", "Manager",
+                450000, new Date(), ManagerType.OR);
+        Admin admin = new Admin("A-1", "admin", "pass", "Demo", "Admin",
+                400000, new Date());
+        Student student = new Student("S-1", "student", "pass", "Demo", "Student",
+                1, 3.5, 0, "CS");
+        Course course = new Course("CS101", "Object-Oriented Programming", 5);
+
+        course.addInstructor(professor);
+        addUserIfMissing(facade, professor);
+        addUserIfMissing(facade, manager);
+        addUserIfMissing(facade, admin);
+        addUserIfMissing(facade, student);
+        facade.addCourse(course);
+    }
+
+    private void addUserIfMissing(UniversityFacade facade, oopproject.users.User user) {
+        try {
+            facade.findUserById(user.getId());
+        } catch (UserNotFoundException e) {
+            facade.addUser(user);
+        }
     }
 }

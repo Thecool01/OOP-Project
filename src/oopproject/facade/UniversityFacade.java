@@ -15,10 +15,12 @@ import oopproject.services.ResearchService;
 import oopproject.services.UserService;
 import oopproject.system.UniversitySystem;
 import oopproject.teaching.Report;
+import oopproject.storage.LogEntry;
 import oopproject.users.Student;
 import oopproject.users.Teacher;
 import oopproject.users.User;
 
+import java.util.List;
 import java.util.Optional;
 
 public class UniversityFacade {
@@ -50,6 +52,30 @@ public class UniversityFacade {
 
     public RegistrationRequest registerForCourse(Student student, Course course) {
         return registrationService.register(student, course);
+    }
+
+    public void addUser(User user) {
+        userService.addUser(user);
+    }
+
+    public void removeUser(User user) {
+        userService.removeUser(user);
+    }
+
+    public void updateUser(User user) {
+        userService.updateUser(user);
+    }
+
+    public User findUserById(String id) {
+        return userService.findUserById(id);
+    }
+
+    public void addCourse(Course course) {
+        system.addCourse(course);
+    }
+
+    public List<LogEntry> getLogs() {
+        return system.getLogs();
     }
 
     public void putMark(Teacher teacher, Student student, Course course, Mark mark) {

@@ -12,16 +12,26 @@ public class LogEntry implements Serializable {
 
     private String logId;
     private User user;
+    private String username;
     private String action;
     private LocalDateTime timestamp;
 
     public LogEntry(User user, String action) {
-        this(UUID.randomUUID().toString(), user, action, LocalDateTime.now());
+        this(UUID.randomUUID().toString(), user, user == null ? null : user.getLogin(), action, LocalDateTime.now());
+    }
+
+    public LogEntry(String username, String action) {
+        this(UUID.randomUUID().toString(), null, username, action, LocalDateTime.now());
     }
 
     public LogEntry(String logId, User user, String action, LocalDateTime timestamp) {
+        this(logId, user, user == null ? null : user.getLogin(), action, timestamp);
+    }
+
+    public LogEntry(String logId, User user, String username, String action, LocalDateTime timestamp) {
         this.logId = logId;
         this.user = user;
+        this.username = username;
         this.action = action;
         this.timestamp = timestamp;
     }
@@ -41,6 +51,15 @@ public class LogEntry implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+        this.username = user == null ? username : user.getLogin();
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getAction() {
@@ -61,8 +80,11 @@ public class LogEntry implements Serializable {
 
     @Override
     public String toString() {
-        String username = (user != null) ? user.getLogin() : "Unknown User";
+        String displayName = (user != null) ? user.getLogin() : username;
+        if (displayName == null || displayName.isBlank()) {
+            displayName = "Unknown User";
+        }
         return String.format("[%s] ID: %s | User: %s | Action: %s", 
-                timestamp.format(FORMATTER), logId, username, action);
+                timestamp.format(FORMATTER), logId, displayName, action);
     }
 }

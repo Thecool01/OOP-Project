@@ -12,9 +12,8 @@ public class Main {
 
     public void runDemo() {
         UniversitySystem system = UniversitySystem.getInstance();
-        new DemoDataLoader().loadDemoData(system);
-
         UniversityFacade facade = new UniversityFacade(system);
+        new DemoDataLoader().loadDemoData(facade);
         facade.login("admin", "pass");
         system.addLog("system", "application started");
     }

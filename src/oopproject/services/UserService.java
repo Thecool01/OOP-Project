@@ -20,6 +20,9 @@ public class UserService {
     }
 
     public void removeUser(User user) {
+        if (user == null || system.findUserById(user.getId()) == null) {
+            throw new UserNotFoundException(user == null ? null : user.getId());
+        }
         system.removeUser(user);
     }
 
