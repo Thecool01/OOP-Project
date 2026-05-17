@@ -119,12 +119,17 @@ public class Mark implements Serializable, Comparable<Mark> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Mark mark)) return false;
+
+        if (markId == null || mark.markId == null) {
+            return false;
+        }
+
         return Objects.equals(markId, mark.markId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(markId);
+        return markId == null ? System.identityHashCode(this) : Objects.hash(markId);
     }
 
     @Override

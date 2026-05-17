@@ -65,12 +65,17 @@ public class Message implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Message message)) return false;
+
+        if (messageId == null || message.messageId == null) {
+            return false;
+        }
+
         return Objects.equals(messageId, message.messageId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(messageId);
+        return messageId == null ? System.identityHashCode(this) : Objects.hash(messageId);
     }
 
     @Override

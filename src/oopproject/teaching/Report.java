@@ -63,12 +63,17 @@ public class Report implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Report report)) return false;
+
+        if (reportId == null || report.reportId == null) {
+            return false;
+        }
+
         return Objects.equals(reportId, report.reportId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(reportId);
+        return reportId == null ? System.identityHashCode(this) : Objects.hash(reportId);
     }
 
     @Override

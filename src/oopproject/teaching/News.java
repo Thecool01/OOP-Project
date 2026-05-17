@@ -65,12 +65,17 @@ public class News implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof News news)) return false;
+
+        if (newsId == null || news.newsId == null) {
+            return false;
+        }
+
         return Objects.equals(newsId, news.newsId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(newsId);
+        return newsId == null ? System.identityHashCode(this) : Objects.hash(newsId);
     }
 
     @Override

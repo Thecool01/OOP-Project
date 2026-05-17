@@ -70,12 +70,17 @@ public class EmployeeRequest implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof EmployeeRequest that)) return false;
+
+        if (requestId == null || that.requestId == null) {
+            return false;
+        }
+
         return Objects.equals(requestId, that.requestId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(requestId);
+        return requestId == null ? System.identityHashCode(this) : Objects.hash(requestId);
     }
 
     @Override
