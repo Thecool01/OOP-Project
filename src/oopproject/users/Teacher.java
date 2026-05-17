@@ -30,6 +30,13 @@ public class Teacher extends Employee {
         this.teacherId = id;
         this.title = title;
         setRole(UserRole.TEACHER);
+        ensureResearchProfileForProfessor();
+    }
+
+    private void ensureResearchProfileForProfessor() {
+        if (isProfessor() && researchProfile == null) {
+            researchProfile = new ResearchProfile();
+        }
     }
 
     public String getTeacherId() {
@@ -47,6 +54,7 @@ public class Teacher extends Employee {
 
     public void setTitle(TeacherTitle title) {
         this.title = title;
+        ensureResearchProfileForProfessor();
     }
 
     public boolean isProfessor() {
@@ -122,6 +130,7 @@ public class Teacher extends Employee {
 
     public void setResearchProfile(ResearchProfile researchProfile) {
         this.researchProfile = researchProfile;
+        ensureResearchProfileForProfessor();
     }
 
     public EmployeeRequest sendComplaint(String text) {
@@ -132,12 +141,19 @@ public class Teacher extends Employee {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Teacher teacher)) return false;
+
+        if (teacherId == null || teacher.teacherId == null) {
+            return false;
+        }
+
         return Objects.equals(teacherId, teacher.teacherId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(teacherId);
+        return teacherId == null
+                ? System.identityHashCode(this)
+                : Objects.hash(teacherId);
     }
 
     @Override

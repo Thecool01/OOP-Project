@@ -80,8 +80,16 @@ public class Mark implements Serializable, Comparable<Mark> {
         return firstAttestation + secondAttestation + finalExam;
     }
 
+    public boolean isAllowedToFinal() {
+        return firstAttestation + secondAttestation >= 29.5;
+    }
+
     public boolean isPassed() {
-        return calculateTotal() >= 50;
+        return isAllowedToFinal() && calculateTotal() >= 49.5;
+    };
+
+    public double calculateAttestationTotal() {
+        return firstAttestation + secondAttestation;
     }
 
     public Course getCourse() {

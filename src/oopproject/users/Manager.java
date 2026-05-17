@@ -1,6 +1,8 @@
 package oopproject.users;
 
 import oopproject.academic.Course;
+import oopproject.academic.Mark;
+import oopproject.academic.Transcript;
 import oopproject.academic.RegistrationRequest;
 import oopproject.enums.CourseStatus;
 import oopproject.enums.ManagerType;
@@ -92,11 +94,26 @@ public class Manager extends Employee {
         }
     }
 
+    public boolean checkTeacherAvailability(Teacher teacher, Course course) {
+        return teacher != null
+                && course != null
+                && !course.hasInstructor(teacher)
+                && !teacher.isAssignedToCourse(course);
+    }
+
     public void assignCourseToTeacher(Course course, Teacher teacher) {
         if (course == null || teacher == null) {
             throw new RegistrationException(null,
                     course == null ? null : course.getCourseName(),
                     "course and teacher must not be null");
+        }
+
+        if (!checkTeacherAvailability(teacher, course)) {
+            throw new RegistrationException(
+                    null,
+                    course.getCourseName(),
+                    "teacher is already assigned to this course"
+            );
         }
 
         // Добавляем преподавателя в список instructors у Course
@@ -122,8 +139,37 @@ public class Manager extends Employee {
         course.setStatus(CourseStatus.OPEN_FOR_REGISTRATION);
     }
 
-    public Report createReport(ReportType type, String content) {
-        Report report = new Report("REP-" + (reports.size() + 1), type, content);
+    public Report createReport(List<Student> students) {
+        if (students == null) {
+            students = Collections.emptyList();
+        }
+
+        double averageGpa = students.stream()
+                .map(Student::getTranscript)
+                .filter(Objects::nonNull)
+                .mapToDouble(Transcript::calculateGPA)
+                .average()
+                .orElse(0.0);
+
+        long passedMarks = students.stream()
+                .map(Student::getTranscript)
+                .filter(Objects::nonNull)
+                .flatMap(transcript -> transcript.getMarks().stream())
+                .filter(Mark::isPassed)
+                .count();
+
+        long totalMarks = students.stream()
+                .map(Student::getTranscript)
+                .filter(Objects::nonNull)
+                .mapToLong(transcript -> transcript.getMarks().size())
+                .sum();
+
+        String content = "Academic Report\n" +
+                "Students count: " + students.size() + "\n" +
+                "Average GPA: " + averageGpa + "\n" +
+                "Passed marks: " + passedMarks + "/" + totalMarks;
+
+        Report report = new Report("REP-" + (reports.size() + 1), ReportType.COURSE_STATISTICS, content);
         reports.add(report);
         return report;
     }
