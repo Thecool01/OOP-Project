@@ -28,11 +28,21 @@ public class ResearcherDecorator implements Researcher, Serializable {
         return papers;
     }
 
+    @Override
+    public List<ResearchPaper> getResearchPapers() {
+        return papers;
+    }
+
     public void setPapers(List<ResearchPaper> papers) {
         this.papers = papers;
     }
 
     public List<ResearchProject> getProjects() {
+        return projects;
+    }
+
+    @Override
+    public List<ResearchProject> getResearchProjects() {
         return projects;
     }
 
@@ -65,6 +75,11 @@ public class ResearcherDecorator implements Researcher, Serializable {
             }
         }
         return hIndex;
+    }
+
+    @Override
+    public int getHIndex() {
+        return calculateHIndex();
     }
 
     @Override

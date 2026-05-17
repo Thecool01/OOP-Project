@@ -1,12 +1,16 @@
 package oopproject.academic;
+
 import java.io.Serializable;
 import java.util.Objects;
 import oopproject.users.Student;
 
-public class Mark implements Serializable {
+public class Mark implements Serializable, Comparable<Mark> {
+    private String markId;
     private double firstAttestation;
     private double secondAttestation;
     private double finalExam;
+    private Course course;
+    private Student student;
 
     public Mark() {
     }
@@ -17,6 +21,24 @@ public class Mark implements Serializable {
         this.finalExam = finalExam;
     }
 
+    public Mark(String markId, Student student, Course course, double firstAttestation,
+                double secondAttestation, double finalExam) {
+        this.markId = markId;
+        this.student = student;
+        this.course = course;
+        this.firstAttestation = firstAttestation;
+        this.secondAttestation = secondAttestation;
+        this.finalExam = finalExam;
+    }
+
+    public String getMarkId() {
+        return markId;
+    }
+
+    public void setMarkId(String markId) {
+        this.markId = markId;
+    }
+
     public double getFirstAttestation() {
         return firstAttestation;
     }
@@ -25,7 +47,7 @@ public class Mark implements Serializable {
         this.firstAttestation = firstAttestation;
     }
 
-    public double getSecondAttestation(double secondAttestation) {
+    public double getSecondAttestation() {
         return secondAttestation;
     }
 
@@ -42,6 +64,10 @@ public class Mark implements Serializable {
     }
 
     public double getTotal() {
+        return calculateTotal();
+    }
+
+    public double calculateTotal() {
         return firstAttestation + secondAttestation + finalExam;
     }
 
