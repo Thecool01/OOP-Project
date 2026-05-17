@@ -1,7 +1,13 @@
 package oopproject.academic;
 
+import oopproject.enums.CourseStatus;
+import oopproject.users.Student;
+import oopproject.users.Teacher;
+
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Objects;
 import java.util.List;
 import java.util.Objects;
@@ -10,6 +16,9 @@ import oopproject.users.Student;
 import oopproject.users.Teacher;
 
 public class Course implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+    
     private String courseId;
     private String title;
     private String description;
@@ -22,6 +31,12 @@ public class Course implements Serializable {
     private final List<Lesson> lessons = new ArrayList<>();
 
     public Course() {
+    }
+
+    public Course(String courseId, String courseName, int credits) {
+        this.courseId = courseId;
+        this.title = courseName;
+        this.credits = credits;
     }
 
     public Course(String courseId, String courseName, int credits) {
@@ -95,7 +110,7 @@ public class Course implements Serializable {
     }
 
     public List<Teacher> getInstructors() {
-        return instructors;
+        return Collections.unmodifiableList(instructors);
     }
 
     public void setInstructors(List<Teacher> instructors) {
@@ -117,7 +132,7 @@ public class Course implements Serializable {
     }
 
     public List<Student> getStudents() {
-        return students;
+        return Collections.unmodifiableList(students);
     }
 
     public void addStudent(Student student) {
@@ -131,7 +146,7 @@ public class Course implements Serializable {
     }
 
     public List<Lesson> getLessons() {
-        return lessons;
+        return Collections.unmodifiableList(lessons);
     }
 
     public void addLesson(Lesson lesson) {
@@ -142,6 +157,14 @@ public class Course implements Serializable {
 
     public int getTotalStudents() {
         return students.size();
+    }
+
+    public boolean hasStudent(Student student) {
+        return students.contains(student);
+    }
+
+    public boolean hasInstructor(Teacher teacher) {
+        return instructors.contains(teacher);
     }
 
     @Override
@@ -157,7 +180,7 @@ public class Course implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(courseId);
+        return courseId == null ? System.identityHashCode(this) : Objects.hash(courseId);
     }
 
     @Override

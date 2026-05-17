@@ -107,31 +107,27 @@ public class Student extends User {
     }
 
     public RegistrationRequest registerForCourse(Course c) {
-        if (c == null) {
-            throw new CourseNotFoundException(getId(), null);
-        }
-        if (registeredCourses.contains(c)) {
-            throw new CourseAlreadyRegisteredException(getId(), c.getCourseName());
-        }
-        if (creditsEnrolled + c.getCredits() > MAX_CREDITS) {
-            throw new CreditLimitExceededException(getId(), c.getCourseName());
-        }
+        validateCourseRegistration(c);
         return new RegistrationRequest(getId() + "_" + c.getCourseId(), this, c);
     }
 
     public void enrollInCourse(Course c) {
+        validateCourseRegistration(c);
+        registeredCourses.add(c);
+        c.addStudent(this);
+        creditsEnrolled += c.getCredits();
+    }
+
+    private void validateCourseRegistration(Course c) {
         if (c == null) {
             throw new CourseNotFoundException(getId(), null);
         }
         if (registeredCourses.contains(c)) {
-            throw new CourseAlreadyRegisteredException(getId(), c.getCourseName());
+            throw new RegistrationException(getId(), c.getCourseName(), "student is already registered for this course");
         }
         if (creditsEnrolled + c.getCredits() > MAX_CREDITS) {
             throw new CreditLimitExceededException(getId(), c.getCourseName());
         }
-        registeredCourses.add(c);
-        creditsEnrolled += c.getCredits();
-        c.addStudent(this);
     }
 
     public boolean canRegister(Course c) {

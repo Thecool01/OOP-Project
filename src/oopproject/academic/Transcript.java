@@ -1,12 +1,18 @@
 package oopproject.academic;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 import oopproject.users.Student;
 
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+
 public class Transcript implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private Student student;
     private final List<Mark> marks = new ArrayList<>();
 
@@ -26,7 +32,7 @@ public class Transcript implements Serializable {
     }
 
     public List<Mark> getMarks() {
-        return marks;
+        return Collections.unmodifiableList(marks);
     }
 
     public void addMark(Mark mark) {
@@ -52,11 +58,18 @@ public class Transcript implements Serializable {
         System.out.println("GPA: " + String.format("%.2f", calculateGPA()));
     }
 
+    public Mark getMarkByCourse(Course course) {
+        return marks.stream()
+                .filter(mark -> Objects.equals(mark.getCourse(), course))
+                .findFirst()
+                .orElse(null);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Transcript t)) return false;
-        return Objects.equals(student, t.student);
+        if (!(o instanceof Transcript that)) return false;
+        return Objects.equals(student, that.student);
     }
 
     @Override
@@ -67,9 +80,10 @@ public class Transcript implements Serializable {
     @Override
     public String toString() {
         return "Transcript{" +
-            "student=" + (student == null ? "null" : student.getId()) +
-            ", marks=" + marks.size() +
-            ", gpa=" + String.format("%.2f", calculateGPA()) +
-            '}';
+                "student=" + student +
+                ", marksCount=" + marks.size() +
+                ", GPA=" + calculateGPA() +
+                '}';
+    }
 }
 }

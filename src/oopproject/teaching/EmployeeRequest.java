@@ -4,9 +4,14 @@ import oopproject.enums.RequestStatus;
 import oopproject.users.Employee;
 import oopproject.users.Manager;
 
+import java.io.Serial;
+import java.util.Objects;
 import java.io.Serializable;
 
 public class EmployeeRequest implements Serializable {
+    @Serial //serialization version
+    private static final long serialVersionUID = 1L; //версия класса
+
     private String requestId;
     private Employee sender;
     private String text;
@@ -50,5 +55,42 @@ public class EmployeeRequest implements Serializable {
     public void reject(Manager manager) {
         status = RequestStatus.REJECTED;
         signedBy = manager;
+    }
+
+    public boolean isPending() {
+        return status == RequestStatus.PENDING;
+    }
+
+    // allows editing request text
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof EmployeeRequest that)) return false;
+
+        if (requestId == null || that.requestId == null) {
+            return false;
+        }
+
+        return Objects.equals(requestId, that.requestId);
+    }
+
+    @Override
+    public int hashCode() {
+        return requestId == null ? System.identityHashCode(this) : Objects.hash(requestId);
+    }
+
+    @Override
+    public String toString() {
+        return "EmployeeRequest{" +
+                "requestId='" + requestId + '\'' +
+                ", sender=" + sender +
+                ", text='" + text + '\'' +
+                ", status=" + status +
+                ", signedBy=" + signedBy +
+                '}';
     }
 }

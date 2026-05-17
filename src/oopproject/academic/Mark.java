@@ -1,12 +1,16 @@
 package oopproject.academic;
 
+import oopproject.exceptions.InvalidMarkException;
 import oopproject.users.Student;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
-import oopproject.users.Student;
 
 public class Mark implements Serializable, Comparable<Mark> {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private String markId;
     private double firstAttestation;
     private double secondAttestation;
@@ -18,9 +22,9 @@ public class Mark implements Serializable, Comparable<Mark> {
     }
 
     public Mark(double firstAttestation, double secondAttestation, double finalExam) {
-        this.firstAttestation = firstAttestation;
-        this.secondAttestation = secondAttestation;
-        this.finalExam = finalExam;
+        setFirstAttestation(firstAttestation);
+        setSecondAttestation(secondAttestation);
+        setFinalExam(finalExam);
     }
 
     public Mark(String markId, Student student, Course course, double firstAttestation,
@@ -28,9 +32,9 @@ public class Mark implements Serializable, Comparable<Mark> {
         this.markId = markId;
         this.student = student;
         this.course = course;
-        this.firstAttestation = firstAttestation;
-        this.secondAttestation = secondAttestation;
-        this.finalExam = finalExam;
+        setFirstAttestation(firstAttestation);
+        setSecondAttestation(secondAttestation);
+        setFinalExam(finalExam);
     }
 
     public String getMarkId() {
@@ -46,6 +50,7 @@ public class Mark implements Serializable, Comparable<Mark> {
     }
 
     public void setFirstAttestation(double firstAttestation) {
+        validateScore(firstAttestation);
         this.firstAttestation = firstAttestation;
     }
 
@@ -54,6 +59,7 @@ public class Mark implements Serializable, Comparable<Mark> {
     }
 
     public void setSecondAttestation(double secondAttestation) {
+        validateScore(secondAttestation);
         this.secondAttestation = secondAttestation;
     }
 
@@ -62,6 +68,7 @@ public class Mark implements Serializable, Comparable<Mark> {
     }
 
     public void setFinalExam(double finalExam) {
+        validateScore(finalExam);
         this.finalExam = finalExam;
     }
 
@@ -73,8 +80,16 @@ public class Mark implements Serializable, Comparable<Mark> {
         return firstAttestation + secondAttestation + finalExam;
     }
 
+    public boolean isAllowedToFinal() {
+        return firstAttestation + secondAttestation >= 29.5;
+    }
+
     public boolean isPassed() {
-        return calculateTotal() >= 50;
+        return isAllowedToFinal() && calculateTotal() >= 49.5;
+    };
+
+    public double calculateAttestationTotal() {
+        return firstAttestation + secondAttestation;
     }
 
     public Course getCourse() {
@@ -93,6 +108,16 @@ public class Mark implements Serializable, Comparable<Mark> {
         this.student = student;
     }
 
+    private void validateScore(double score) {
+        if (score < 0) {
+            throw new InvalidMarkException(
+                    student != null ? student.getStudentId() : "unknown",
+                    course != null ? course.getTitle() : "unknown",
+                    "Score cannot be negative"
+            );
+        }
+    }
+
     @Override
     public int compareTo(Mark other) {
         return Double.compare(calculateTotal(), other == null ? 0 : other.calculateTotal());
@@ -103,23 +128,28 @@ public class Mark implements Serializable, Comparable<Mark> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Mark mark)) return false;
-        return markId != null && Objects.equals(markId, mark.markId);
+
+        if (markId == null || mark.markId == null) {
+            return false;
+        }
+
+        return Objects.equals(markId, mark.markId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(markId);
+        return markId == null ? System.identityHashCode(this) : Objects.hash(markId);
     }
 
     @Override
     public String toString() {
         return "Mark{" +
-            "student=" + (student == null ? "null" : student.getId()) +
-            ", course=" + (course == null ? "null" : course.getCourseName()) +
-            ", first=" + firstAttestation +
-            ", second=" + secondAttestation +
-            ", final=" + finalExam +
-            ", total=" + calculateTotal() +
-            '}';
+                "markId='" + markId + '\'' +
+                ", firstAttestation=" + firstAttestation +
+                ", secondAttestation=" + secondAttestation +
+                ", finalExam=" + finalExam +
+                ", total=" + calculateTotal() +
+                ", passed=" + isPassed() +
+                '}';
     }
 }
