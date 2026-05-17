@@ -35,6 +35,12 @@ public class Course implements Serializable {
         this.credits = credits;
     }
 
+    public Course(String courseId, String courseName, int credits) {
+        this.courseId = courseId;
+        this.title = courseName;
+        this.credits = credits;
+    }
+
     public String getCourseId() {
         return courseId;
     }

@@ -1,9 +1,8 @@
 package oopproject.users;
 
+import java.util.Date;
 import oopproject.enums.UserRole;
 import oopproject.system.UniversitySystem;
-
-import java.util.Date;
 
 public class Admin extends Employee {
     public Admin() {

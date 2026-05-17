@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UniversitySystem implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private static final UniversitySystem INSTANCE = new UniversitySystem();
 
     private List<User> users = new ArrayList<>();
@@ -22,12 +24,22 @@ public class UniversitySystem implements Serializable {
     private List<ResearchProject> researchProjects = new ArrayList<>();
     private List<News> news = new ArrayList<>();
     private List<LogEntry> logs = new ArrayList<>();
-    private transient DataStore dataStore = new FileDataStore();
+    private static transient DataStore dataStore = new FileDataStore();
 
     private UniversitySystem() {
     }
 
     public static UniversitySystem getInstance() {
+        return INSTANCE;
+    }
+
+    protected Object readResolve() {
+        INSTANCE.users = this.users;
+        INSTANCE.courses = this.courses;
+        INSTANCE.registrationRequests = this.registrationRequests;
+        INSTANCE.researchProjects = this.researchProjects;
+        INSTANCE.news = this.news;
+        INSTANCE.logs = this.logs;
         return INSTANCE;
     }
 
@@ -55,15 +67,12 @@ public class UniversitySystem implements Serializable {
         return logs;
     }
 
-    public DataStore getDataStore() {
-        if (dataStore == null) {
-            dataStore = new FileDataStore();
-        }
+    public static DataStore getDataStore() {
         return dataStore;
     }
 
-    public void setDataStore(DataStore dataStore) {
-        this.dataStore = dataStore;
+    public static void setDataStore(DataStore newStore) {
+        dataStore = newStore;
     }
 
     public void addUser(User user) {
@@ -113,7 +122,12 @@ public class UniversitySystem implements Serializable {
     }
 
     public void addLog(String username, String action) {
-        logs.add(new LogEntry(username, action));
+        User userObj = users.stream()
+                .filter(u -> u != null && username != null && username.equals(u.getLogin()))
+                .findFirst()
+                .orElse(null);
+
+        logs.add(userObj == null ? new LogEntry(username, action) : new LogEntry(userObj, action));
     }
 
     public User findUserById(String id) {

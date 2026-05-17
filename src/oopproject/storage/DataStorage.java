@@ -1,12 +1,5 @@
 package oopproject.storage;
 
-import oopproject.academic.Course;
-import oopproject.exceptions.StorageException;
-import oopproject.research.ResearchPaper;
-import oopproject.research.ResearchProject;
-import oopproject.research.Researcher;
-import oopproject.users.User;
-
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -17,8 +10,15 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import oopproject.academic.Course;
+import oopproject.exceptions.StorageException;
+import oopproject.research.ResearchPaper;
+import oopproject.research.ResearchProject;
+import oopproject.research.Researcher;
+import oopproject.users.User;
 
 public class DataStorage implements Serializable {
+    private static final long serialVersionUID = 1L;
     private static final String STORAGE_FILE = "data.ser";
     private static final DataStorage INSTANCE = new DataStorage();
 
@@ -49,7 +49,7 @@ public class DataStorage implements Serializable {
     public void setCourses(List<Course> courses) {
         this.courses = courses;
     }
-
+    
     public List<ResearchProject> getResearchProjects() {
         return researchProjects;
     }
@@ -94,7 +94,12 @@ public class DataStorage implements Serializable {
     }
 
     public void addLog(String username, String action) {
-        actionLogs.add(new LogEntry(username, action));
+        User userObj = users.stream()
+                .filter(u -> u != null && username != null && username.equals(u.getLogin()))
+                .findFirst()
+                .orElse(null);
+
+        actionLogs.add(userObj == null ? new LogEntry(username, action) : new LogEntry(userObj, action));
     }
 
     public User findUserById(String id) {
