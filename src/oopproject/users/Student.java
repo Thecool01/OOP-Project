@@ -1,168 +1,200 @@
 package oopproject.users;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import oopproject.academic.Course;
 import oopproject.academic.Mark;
+import oopproject.academic.Transcript;
+import oopproject.enums.UserRole;
+import oopproject.exceptions.CourseAlreadyRegisteredException;
+import oopproject.exceptions.CreditLimitExceededException;
+import oopproject.exceptions.RegistrationException;
+import oopproject.research.ResearchProfile;
+import oopproject.research.Researcher;
 
-import java.util.*;
-
-public class Student {
-
+public class Student extends User {
     private static final int MAX_CREDITS = 21;
-    private static final int MAX_ALLOWED_FAILS = 3;
 
-    private final String name;
-    private final String id;
-    private final int yearOfStudy;
+    private String studentId;
+    private int yearOfStudy;
+    private double gpa;
+    private int creditsEnrolled;
+    private String major;
+    private Transcript transcript = new Transcript(this);
+    private ResearchProfile researchProfile;
+    private Researcher supervisor;
+    private int failCount;
+    private final List<Course> registeredCourses = new ArrayList<>();
+    private final Map<Course, Mark> marks = new HashMap<>();
 
-    private final Map<Course, Mark> courseMarks;
-
-    public Student(String name, String id) {
-        this(name, id, 1);
+    public Student() {
+        setRole(UserRole.STUDENT);
     }
 
-    public Student(String name, String id, int yearOfStudy) {
-        this.name = name;
-        this.id = id;
+    public Student(String id, String login, String password, String firstName, String lastName,
+                   int yearOfStudy, double gpa, int creditsEnrolled, String major) {
+        super(id, login, password, firstName, lastName);
+        this.studentId = id;
         this.yearOfStudy = yearOfStudy;
-        this.courseMarks = new LinkedHashMap<>();
+        this.gpa = gpa;
+        this.creditsEnrolled = creditsEnrolled;
+        this.major = major;
+        setRole(UserRole.STUDENT);
     }
 
-    //registration
-
-    public void registerForCourse(Course course)
-            throws CreditLimitExceededException, AlreadyRegisteredException {
-
-        if (courseMarks.containsKey(course)) {
-            throw new AlreadyRegisteredException(
-                "Already registered for \"" + course.getName() + "\".");
-        }
-
-        int projected = getTotalCredits() + course.getCredits();
-        if (projected > MAX_CREDITS) {
-            throw new CreditLimitExceededException(
-                "Cannot register for \"" + course.getName() + "\": would reach "
-                + projected + " credits (limit is " + MAX_CREDITS + "). "
-                + "Current load: " + getTotalCredits() + " credits.");
-        }
-
-        courseMarks.put(course, null);
-        course.addStudent(this);
-        System.out.println(name + " registered for: " + course);
+    public String getStudentId() {
+        return studentId;
     }
 
-    public void dropCourse(Course course) throws CourseNotFoundException {
-        if (!courseMarks.containsKey(course)) {
-            throw new CourseNotFoundException(
-                "Cannot drop \"" + course.getName() + "\": not registered.");
-        }
-        courseMarks.remove(course);
-        course.removeStudent(this);
-        System.out.println(name + " dropped: " + course.getName());
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
+        setId(studentId);
     }
 
-    //marks
-
-    public void addMark(Course course, Mark mark) throws CourseNotFoundException {
-        if (!courseMarks.containsKey(course)) {
-            throw new CourseNotFoundException(
-                name + " is not registered for \"" + course.getName() + "\".");
-        }
-        courseMarks.put(course, mark);
+    public int getYearOfStudy() {
+        return yearOfStudy;
     }
 
-    public Mark getMark(Course course) {
-        return courseMarks.get(course);
+    public void setYearOfStudy(int yearOfStudy) {
+        this.yearOfStudy = yearOfStudy;
+    }
+
+    public double getGpa() {
+        return gpa;
+    }
+
+    public void setGpa(double gpa) {
+        this.gpa = gpa;
+    }
+
+    public int getCreditsEnrolled() {
+        return creditsEnrolled;
+    }
+
+    public void setCreditsEnrolled(int creditsEnrolled) {
+        this.creditsEnrolled = creditsEnrolled;
+    }
+
+    public String getMajor() {
+        return major;
+    }
+
+    public void setMajor(String major) {
+        this.major = major;
+    }
+
+    public int getFailCount() {
+        return failCount;
+    }
+
+    public void setFailCount(int failCount) {
+        this.failCount = failCount;
+    }
+
+    public List<Course> getRegisteredCourses() {
+        return registeredCourses;
+    }
+
+    public List<Course> viewCourses(List<Course> availableCourses) {
+        return availableCourses == null ? List.of() : availableCourses;
+    }
+
+    public void registerForCourse(Course c) {
+        if (c == null) {
+            throw new RegistrationException(getId(), null, "course is null");
+        }
+        if (registeredCourses.contains(c)) {
+            throw new CourseAlreadyRegisteredException(getId(), c.getCourseName());
+        }
+        if (creditsEnrolled + c.getCredits() > MAX_CREDITS) {
+            throw new CreditLimitExceededException(getId(), c.getCourseName());
+        }
+        registeredCourses.add(c);
+        c.addStudent(this);
+        creditsEnrolled += c.getCredits();
+    }
+
+    public boolean canRegister(Course c) {
+        if (c == null) return false;
+        if (registeredCourses.contains(c)) return false;
+        return creditsEnrolled + c.getCredits() <= MAX_CREDITS;
+    }
+
+    public Researcher getSupervisor() {
+        return supervisor;
+    }
+
+    public void setSupervisor(Researcher supervisor) {
+        if (yearOfStudy >= 4 && supervisor != null && supervisor.calculateHIndex() < 3) {
+            throw new RegistrationException(getId(), "research supervisor", "supervisor h-index must be at least 3");
+        }
+        this.supervisor = supervisor;
+    }
+
+    public Map<Course, Mark> getMarks() {
+        return marks;
+    }
+
+    public void addMark(Course course, Mark mark) {
+        marks.put(course, mark);
+        transcript.addMark(mark);
     }
 
     public void viewMarks() {
-        System.out.println("MARKS " + name);
-        if (courseMarks.isEmpty()) {
-            System.out.println("No courses registered.");
-            return;
-        }
-        for (Map.Entry<Course, Mark> entry : courseMarks.entrySet()) {
-            Mark m = entry.getValue();
-            System.out.println(entry.getKey().getName() + ": " + (m != null ? m : "not graded yet"));
-        }
+        marks.forEach((course, mark) -> System.out.println(course.getCourseName() + ": " + mark.getTotal()));
     }
 
-    //transcript
+    public void viewTranscript() {
+        transcript.printTranscript();
+    }
 
     public Transcript getTranscript() {
-        Map<Course, Mark> graded = new LinkedHashMap<>();
-        for (Map.Entry<Course, Mark> e : courseMarks.entrySet()) {
-            if (e.getValue() != null) graded.put(e.getKey(), e.getValue());
-        }
-        return new Transcript(this, graded);
+        return transcript;
     }
 
-    //statistics
-
-    public int getTotalCredits() {
-        return courseMarks.keySet().stream().mapToInt(Course::getCredits).sum();
+    public void setTranscript(Transcript transcript) {
+        this.transcript = transcript;
     }
 
-    public int getRemainingCredits() {
-        return MAX_CREDITS - getTotalCredits();
+    public ResearchProfile getResearchProfile() {
+        return researchProfile;
     }
 
-    public double getGPA() {
-        double weightedSum = 0;
-        int totalCredits = 0;
-        for (Map.Entry<Course, Mark> e : courseMarks.entrySet()) {
-            Mark m = e.getValue();
-            if (m == null) continue;
-            int credits = e.getKey().getCredits();
-            weightedSum += m.getTotal() * credits;
-            totalCredits += credits;
-        }
-        return totalCredits == 0 ? 0.0 : weightedSum / totalCredits;
+    public void setResearchProfile(ResearchProfile researchProfile) {
+        this.researchProfile = researchProfile;
     }
 
-    public long countFails() {
-        return courseMarks.values().stream()
-                .filter(m -> m != null && !m.isPassed()).count();
+    public void assignSupervisor(Researcher supervisor) {
+        setSupervisor(supervisor);
     }
 
-    public boolean isAtRisk() {
-        return countFails() >= MAX_ALLOWED_FAILS;
-    }
-
-    public void getStatistics() {
-        long graded = courseMarks.values().stream().filter(Objects::nonNull).count();
-        long passed = courseMarks.values().stream().filter(m -> m != null && m.isPassed()).count();
-
-        System.out.println("STATISTICS " + name);
-        System.out.println("Registered courses: " + courseMarks.size());
-        System.out.println("Total credits: " + getTotalCredits());
-        System.out.println("Remaining credits: " + getRemainingCredits());
-        System.out.println("Graded: " + graded);
-        System.out.println("Passed: " + passed);
-        System.out.println("Failed: " + countFails());
-        System.out.printf("GPA: %.2f%n", getGPA());
-        System.out.println("Academic risk: " + (isAtRisk() ? "YES" : "No"));
-    }
-
-    //getters
-
-    public String getName()       { return name; }
-    public String getId()         { return id; }
-    public int getYearOfStudy()   { return yearOfStudy; }
-    public List<Course> getCourses() { return new ArrayList<>(courseMarks.keySet()); }
-    public Map<Course, Mark> getCourseMarks() { return Collections.unmodifiableMap(courseMarks); }
-
-    @Override
-    public String toString() {
-        return "Student{id=" + id + ", name=" + name + ", year=" + yearOfStudy
-                + ", credits=" + getTotalCredits() + "/" + MAX_CREDITS + "}";
+    public void rateTeacher(Teacher teacher, int rating) {
+        System.out.println("Teacher " + (teacher == null ? "unknown" : teacher.getLogin()) + " rated as " + rating);
     }
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof Student)) return false;
-        return id.equals(((Student) o).id);
+        if (this == o) return true;
+        if (!(o instanceof Student s)) return false;
+        return Objects.equals(studentId, s.studentId);
     }
 
     @Override
-    public int hashCode() { return id.hashCode(); }
+    public int hashCode() {
+        return Objects.hash(studentId);
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+            "studentId='" + studentId + '\'' +
+            ", name=" + getFirstName() + " " + getLastName() +
+            ", major='" + major + '\'' +
+            ", gpa=" + gpa +
+            ", credits=" + creditsEnrolled +
+            '}';
+    }
 }

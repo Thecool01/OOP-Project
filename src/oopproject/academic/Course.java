@@ -1,10 +1,12 @@
 package oopproject.academic;
 
-import oopproject.users.Teacher;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import oopproject.enums.CourseStatus;
+import oopproject.users.Student;
+import oopproject.users.Teacher;
 
 public class Course implements Serializable {
     private String courseName;
@@ -14,8 +16,9 @@ public class Course implements Serializable {
     public Course() {
     }
 
-    public Course(String courseName, int credits) {
-        this.courseName = courseName;
+    public Course(String courseId, String courseName, int credits) {
+        this.courseId = courseId;
+        this.title = courseName;
         this.credits = credits;
     }
 
