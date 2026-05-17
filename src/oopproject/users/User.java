@@ -1,28 +1,46 @@
 package oopproject.users;
 
+import oopproject.enums.AccountStatus;
+import oopproject.enums.UserRole;
+
 import java.io.Serializable;
 import java.util.Objects;
 
 public abstract class User implements Serializable {
     private String id;
-    private String login;
+    private String username;
     private String password;
-    private String firstName;
-    private String lastName;
+    private String fullName;
+    private String email;
+    private UserRole role;
+    private AccountStatus status = AccountStatus.ACTIVE;
 
     protected User() {
     }
 
     protected User(String id, String login, String password, String firstName, String lastName) {
         this.id = id;
-        this.login = login;
+        this.username = login;
         this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.fullName = ((firstName == null ? "" : firstName) + " " + (lastName == null ? "" : lastName)).trim();
     }
 
     public boolean login() {
-        return login != null && !login.isBlank() && password != null && !password.isBlank();
+        return username != null && !username.isBlank() && password != null && !password.isBlank()
+                && status == AccountStatus.ACTIVE;
+    }
+
+    public void logout() {
+    }
+
+    public String viewProfile() {
+        return toString();
+    }
+
+    public void changePassword(String oldPassword, String newPassword) {
+        if (Objects.equals(password, oldPassword) && newPassword != null && !newPassword.isBlank()) {
+            password = newPassword;
+        }
     }
 
     public String getId() {
@@ -34,11 +52,19 @@ public abstract class User implements Serializable {
     }
 
     public String getLogin() {
-        return login;
+        return username;
     }
 
     public void setLogin(String login) {
-        this.login = login;
+        this.username = login;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -50,19 +76,59 @@ public abstract class User implements Serializable {
     }
 
     public String getFirstName() {
-        return firstName;
+        if (fullName == null || fullName.isBlank()) {
+            return "";
+        }
+        return fullName.split(" ", 2)[0];
     }
 
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+        String lastName = getLastName();
+        this.fullName = ((firstName == null ? "" : firstName) + " " + lastName).trim();
     }
 
     public String getLastName() {
-        return lastName;
+        if (fullName == null || !fullName.contains(" ")) {
+            return "";
+        }
+        return fullName.substring(fullName.indexOf(' ') + 1);
     }
 
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        String firstName = getFirstName();
+        this.fullName = (firstName + " " + (lastName == null ? "" : lastName)).trim();
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
+    }
+
+    public AccountStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(AccountStatus status) {
+        this.status = status;
     }
 
     @Override
@@ -76,21 +142,22 @@ public abstract class User implements Serializable {
         if (id != null && user.id != null) {
             return Objects.equals(id, user.id);
         }
-        return Objects.equals(login, user.login);
+        return Objects.equals(username, user.username);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id != null ? id : login);
+        return Objects.hash(id != null ? id : username);
     }
 
     @Override
     public String toString() {
         return getClass().getSimpleName() +
                 "{id='" + id + '\'' +
-                ", login='" + login + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
+                ", username='" + username + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", role=" + role +
+                ", status=" + status +
                 '}';
     }
 }

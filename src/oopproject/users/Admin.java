@@ -1,38 +1,33 @@
 package oopproject.users;
 
 import java.util.Date;
-import oopproject.storage.DataStorage;
+import oopproject.enums.UserRole;
+import oopproject.system.UniversitySystem;
 
 public class Admin extends Employee {
-    
-    public Admin(String id, String login, String password, String firstName, String lastName, double salary, Date hireDate) {
+    public Admin() {
+        setRole(UserRole.ADMIN);
+    }
+
+    public Admin(String id, String login, String password, String firstName, String lastName,
+                 double salary, Date hireDate) {
         super(id, login, password, firstName, lastName, salary, hireDate);
+        setRole(UserRole.ADMIN);
     }
 
     public void addUser(User user) {
-        DataStorage.getInstance().getUsers().add(user);
-        DataStorage.getInstance().addLog("Admin added new user: " + user.getLogin());
+        UniversitySystem.getInstance().addUser(user);
     }
 
     public void removeUser(User user) {
-        if (DataStorage.getInstance().getUsers().remove(user)) {
-            DataStorage.getInstance().addLog("Admin removed user: " + user.getLogin());
-        }
+        UniversitySystem.getInstance().removeUser(user);
     }
 
-    public void updateUser(User user, String newFirstName, String newLastName, String newPassword) {
-        if (user != null) {
-            user.setFirstName(newFirstName);
-            user.setLastName(newLastName);
-            user.setPassword(newPassword);
-            DataStorage.getInstance().addLog("Admin updated details for user: " + user.getLogin());
-        }
+    public void updateUser(User user) {
+        UniversitySystem.getInstance().updateUser(user);
     }
 
     public void viewLogs() {
-        System.out.println("\n--- SYSTEM LOGS ---");
-        for (String log : DataStorage.getInstance().getLogs()) {
-            System.out.println(log);
-        }
+        UniversitySystem.getInstance().getLogs().forEach(System.out::println);
     }
 }
