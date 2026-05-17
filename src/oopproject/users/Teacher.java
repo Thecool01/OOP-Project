@@ -27,6 +27,13 @@ public class Teacher extends Employee {
         this.teacherId = id;
         this.title = title;
         setRole(UserRole.TEACHER);
+        ensureResearchProfileForProfessor();
+    }
+
+    private void ensureResearchProfileForProfessor() {
+        if (isProfessor() && researchProfile == null) {
+            researchProfile = new ResearchProfile(this);
+        }
     }
 
     public String getTeacherId() {
@@ -44,6 +51,7 @@ public class Teacher extends Employee {
 
     public void setTitle(TeacherTitle title) {
         this.title = title;
+        ensureResearchProfileForProfessor();
     }
 
     public boolean isProfessor() {
@@ -95,6 +103,10 @@ public class Teacher extends Employee {
 
     public void setResearchProfile(ResearchProfile researchProfile) {
         this.researchProfile = researchProfile;
+        if (this.researchProfile != null && this.researchProfile.getOwner() == null) {
+            this.researchProfile.setOwner(this);
+        }
+        ensureResearchProfileForProfessor();
     }
 
     public void sendComplaint() {

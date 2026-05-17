@@ -4,6 +4,7 @@ import oopproject.academic.Course;
 import oopproject.academic.Mark;
 import oopproject.academic.Transcript;
 import oopproject.enums.UserRole;
+import oopproject.exceptions.LowHIndexSupervisorException;
 import oopproject.exceptions.RegistrationException;
 import oopproject.research.ResearchProfile;
 import oopproject.research.Researcher;
@@ -112,7 +113,7 @@ public class Student extends User {
 
     public void setSupervisor(Researcher supervisor) {
         if (yearOfStudy >= 4 && supervisor != null && supervisor.calculateHIndex() < 3) {
-            throw new RegistrationException(getId(), "research supervisor", "supervisor h-index must be at least 3");
+            throw new LowHIndexSupervisorException(String.valueOf(supervisor));
         }
         this.supervisor = supervisor;
     }
@@ -148,6 +149,9 @@ public class Student extends User {
 
     public void setResearchProfile(ResearchProfile researchProfile) {
         this.researchProfile = researchProfile;
+        if (this.researchProfile != null && this.researchProfile.getOwner() == null) {
+            this.researchProfile.setOwner(this);
+        }
     }
 
     public void assignSupervisor(Researcher supervisor) {

@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import oopproject.exceptions.ResearchException;
 
 public class ResearchProfile implements Researcher, Serializable {
@@ -83,6 +84,12 @@ public class ResearchProfile implements Researcher, Serializable {
             }
         }
         return calculated;
+    }
+
+    public ResearchPaper getMostCitedPaper() {
+        Optional<ResearchPaper> paper = papers.stream()
+                .max(Comparator.comparingInt(ResearchPaper::getCitations));
+        return paper.orElse(null);
     }
 
     @Override
