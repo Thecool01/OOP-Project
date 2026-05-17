@@ -2,15 +2,20 @@ package oopproject.teaching;
 
 import oopproject.users.Employee;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class Message implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private String messageId;
     private Employee sender;
     private Employee receiver;
     private String text;
-    private LocalDateTime sentAt = LocalDateTime.now();
+    private final LocalDateTime sentAt = LocalDateTime.now();
     private boolean read;
 
     public Message() {
@@ -43,8 +48,40 @@ public class Message implements Serializable {
         return sentAt;
     }
 
-    public boolean read() {
-        read = true;
+    // marks message as read
+    public void read() {
+        this.read = true;
+    }
+
+    public boolean isRead() {
         return read;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Message message)) return false;
+        return Objects.equals(messageId, message.messageId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(messageId);
+    }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "messageId='" + messageId + '\'' +
+                ", sender=" + sender +
+                ", receiver=" + receiver +
+                ", text='" + text + '\'' +
+                ", sentAt=" + sentAt +
+                ", read=" + read +
+                '}';
     }
 }
