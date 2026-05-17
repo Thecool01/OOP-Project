@@ -2,6 +2,7 @@ package oopproject.users;
 
 import oopproject.academic.Course;
 import oopproject.academic.RegistrationRequest;
+import oopproject.enums.CourseStatus;
 import oopproject.enums.ManagerType;
 import oopproject.enums.ReportType;
 import oopproject.enums.UserRole;
@@ -10,11 +11,13 @@ import oopproject.teaching.EmployeeRequest;
 import oopproject.teaching.News;
 import oopproject.teaching.Report;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.io.Serial;
+import java.util.*;
 
 public class Manager extends Employee {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private ManagerType type;
     private final List<Report> reports = new ArrayList<>();
     private final List<News> news = new ArrayList<>();
@@ -45,31 +48,47 @@ public class Manager extends Employee {
         this.type = type;
     }
 
-    public void approveRegistration() {
-        System.out.println("Registration approved by manager " + getLogin());
-    }
-
-    public void approveRegistration(Student student, Course course) {
-        if (student == null || course == null) {
-            throw new RegistrationException(student == null ? null : student.getId(),
-                    course == null ? null : course.getCourseName(),
-                    "student and course must not be null");
-        }
-        student.registerForCourse(course);
-        System.out.println("Registration approved by manager " + getLogin());
-    }
-
     public void approveRegistration(RegistrationRequest request) {
         if (request == null) {
             throw new RegistrationException(null, null, "registration request must not be null");
         }
+
+        if (!request.isPending()) {
+            throw new RegistrationException(
+                    request.getStudent() == null ? "unknown" : request.getStudent().getId(),
+                    request.getCourse() == null ? "unknown" : request.getCourse().getCourseName(),
+                    "registration request is already processed"
+            );
+        }
+
         request.approve(this);
-        request.getStudent().registerForCourse(request.getCourse());
+
+        if (!registrationRequests.contains(request)) {
+            registrationRequests.add(request);
+        }
+
+        if (request.getStudent() != null && request.getCourse() != null) {
+            request.getStudent().registerForCourse(request.getCourse());
+        }
     }
 
     public void rejectRegistration(RegistrationRequest request) {
-        if (request != null) {
-            request.reject(this);
+        if (request == null) {
+            throw new RegistrationException(null, null, "registration request must not be null");
+        }
+
+        if (!request.isPending()) {
+            throw new RegistrationException(
+                    request.getStudent() == null ? "unknown" : request.getStudent().getId(),
+                    request.getCourse() == null ? "unknown" : request.getCourse().getCourseName(),
+                    "registration request is already processed"
+            );
+        }
+
+        request.reject(this);
+
+        if (!registrationRequests.contains(request)) {
+            registrationRequests.add(request);
         }
     }
 
@@ -83,9 +102,6 @@ public class Manager extends Employee {
         // Добавляем преподавателя в список instructors у Course
         course.addInstructor(teacher);
 
-        // Добавляем курс в список курсов самого Teacher
-        teacher.addCourse(course);
-
         System.out.println("Teacher " + teacher.getLogin()
                 + " was assigned to course " + course.getCourseName());
     }
@@ -95,9 +111,15 @@ public class Manager extends Employee {
     }
 
     public void addCourseForRegistration(Course course) {
-        if (course != null) {
-            course.setStatus(oopproject.enums.CourseStatus.OPEN_FOR_REGISTRATION);
+        if (course == null) {
+            throw new RegistrationException(
+                    null,
+                    "unknown",
+                    "course must not be null"
+            );
         }
+
+        course.setStatus(CourseStatus.OPEN_FOR_REGISTRATION);
     }
 
     public Report createReport(ReportType type, String content) {
@@ -107,7 +129,7 @@ public class Manager extends Employee {
     }
 
     public void manageNews(News item) {
-        if (item != null) {
+        if (item != null && !news.contains(item)) {
             news.add(item);
         }
     }
@@ -117,6 +139,35 @@ public class Manager extends Employee {
     }
 
     public List<RegistrationRequest> getRegistrationRequests() {
-        return registrationRequests;
+        return Collections.unmodifiableList(registrationRequests);
+    }
+    public List<Report> getReports() {
+        return Collections.unmodifiableList(reports);
+    }
+
+    public List<News> getNews() {
+        return Collections.unmodifiableList(news);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Manager manager)) return false;
+        return Objects.equals(getId(), manager.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
+
+    @Override
+    public String toString() {
+        return "Manager{" +
+                "id='" + getId() + '\'' +
+                ", type=" + type +
+                ", reports=" + reports.size() +
+                ", news=" + news.size() +
+                '}';
     }
 }
