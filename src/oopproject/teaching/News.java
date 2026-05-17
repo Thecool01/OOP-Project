@@ -2,14 +2,19 @@ package oopproject.teaching;
 
 import oopproject.users.Manager;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class News implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private String newsId;
     private String title;
     private String text;
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private final LocalDateTime createdAt = LocalDateTime.now();
     private Manager author;
 
     public News() {
@@ -40,5 +45,42 @@ public class News implements Serializable {
 
     public Manager getAuthor() {
         return author;
+    }
+
+    // publishes news to the system
+    public void publish() {
+        System.out.println("News published: " + title);
+    }
+
+    // allows manager to edit news text
+    public void edit(String text) {
+        this.text = text;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof News news)) return false;
+        return Objects.equals(newsId, news.newsId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(newsId);
+    }
+
+    @Override
+    public String toString() {
+        return "News{" +
+                "newsId='" + newsId + '\'' +
+                ", title='" + title + '\'' +
+                ", text='" + text + '\'' +
+                ", createdAt=" + createdAt +
+                ", author=" + author +
+                '}';
     }
 }
