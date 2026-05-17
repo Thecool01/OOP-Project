@@ -1,14 +1,5 @@
 package oopproject.storage;
 
-import java.io.*;
-import java.util.*;
-import oopproject.academic.Course;
-import oopproject.exceptions.StorageException;
-import oopproject.research.ResearchPaper;
-import oopproject.research.ResearchProject;
-import oopproject.research.Researcher;
-import oopproject.users.User;
-
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -19,49 +10,45 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import oopproject.academic.Course;
+import oopproject.exceptions.StorageException;
+import oopproject.research.ResearchPaper;
+import oopproject.research.ResearchProject;
+import oopproject.research.Researcher;
+import oopproject.users.User;
 
 public class DataStorage implements Serializable {
-    private static final long serialVersionUID = 1L;
-    private static DataStorage instance;
+    private static final String STORAGE_FILE = "data.ser";
+    private static final DataStorage INSTANCE = new DataStorage();
 
     private List<User> users = new ArrayList<>();
     private List<Course> courses = new ArrayList<>();
     private List<ResearchProject> researchProjects = new ArrayList<>();
     private List<LogEntry> actionLogs = new ArrayList<>();
 
-    private DataStorage() {}
+    private DataStorage() {
+    }
 
     public static DataStorage getInstance() {
-        if (instance == null) {
-            instance = new DataStorage();
-        }
-        return instance;
+        return INSTANCE;
     }
 
+    public List<User> getUsers() {
+        return users;
+    }
 
-    public List<User> getUsers() { return users; }
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
+    }
     
-    public User findUserByLogin(String login) {
-        return users.stream()
-                .filter(u -> u.getLogin().equalsIgnoreCase(login))
-                .findFirst()
-                .orElse(null);
-    }
-
-    public List<Course> getCourses() { return courses; }
-
-    public List<ResearchProject> getResearchProjects() { return researchProjects; }
-
-
-    public void addLog(String message) {
-        String logEntry = new Date() + ": " + message;
-        logs.add(logEntry);
-        System.out.println("[LOG] " + logEntry);
-    }
-
-    public List<String> getLogs() { return logs; }
-
-
     public List<ResearchProject> getResearchProjects() {
         return researchProjects;
     }
