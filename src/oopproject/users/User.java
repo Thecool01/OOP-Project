@@ -37,10 +37,12 @@ public abstract class User implements Serializable {
         return toString();
     }
 
-    public void changePassword(String oldPassword, String newPassword) {
+    public boolean changePassword(String oldPassword, String newPassword) {
         if (Objects.equals(password, oldPassword) && newPassword != null && !newPassword.isBlank()) {
             password = newPassword;
+            return true;
         }
+        return false;
     }
 
     public String getId() {

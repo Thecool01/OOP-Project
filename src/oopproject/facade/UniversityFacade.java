@@ -80,6 +80,9 @@ public class UniversityFacade {
 
     public void putMark(Teacher teacher, Student student, Course course, Mark mark) {
         markService.putMark(teacher, student, course, mark);
+        system.addLog(teacher == null ? "system" : teacher.getLogin(),
+                "mark saved for " + (student == null ? "unknown" : student.getLogin())
+                        + " in " + (course == null ? "unknown course" : course.getCourseId()));
     }
 
     public void addResearchPaper(Researcher researcher, ResearchPaper paper) {

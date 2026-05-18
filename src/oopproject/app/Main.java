@@ -44,6 +44,7 @@ import oopproject.users.User;
 
 public class Main {
     private static final String STORAGE_FILE = "university-system.ser";
+    private static final int LOG_PAGE_SIZE = 8;
 
     private final Scanner scanner = new Scanner(System.in);
     private final UniversitySystem system = UniversitySystem.getInstance();
@@ -60,6 +61,7 @@ public class Main {
         loadExistingDataIfPresent();
         new DemoDataLoader().loadDemoData(facade);
         system.addLog("system", "application started");
+        showStartupBanner();
 
         boolean running = true;
         while (running) {
@@ -84,14 +86,14 @@ public class Main {
 
     private void printMainMenu() {
         printHeader("Research-Oriented University System");
-        System.out.println("1. Login");
-        System.out.println("2. Show demo accounts");
-        System.out.println("3. Show university dashboard");
-        System.out.println("4. Browse course catalog");
-        System.out.println("5. Read university news");
-        System.out.println("6. Save data");
-        System.out.println("7. Load data");
-        System.out.println("0. Exit");
+        ConsoleUI.option(1, "Login");
+        ConsoleUI.option(2, "Show demo accounts");
+        ConsoleUI.option(3, "Show university dashboard");
+        ConsoleUI.option(4, "Browse course catalog");
+        ConsoleUI.option(5, "Read university news");
+        ConsoleUI.option(6, "Save data");
+        ConsoleUI.option(7, "Load data");
+        ConsoleUI.exitOption("Exit");
         prompt();
     }
 
@@ -128,16 +130,16 @@ public class Main {
         boolean back = false;
         while (!back) {
             printHeader("Student Workspace - " + student.getFullName());
-            System.out.println("1. View profile");
-            System.out.println("2. Browse courses");
-            System.out.println("3. My courses and schedule");
-            System.out.println("4. Register for a course");
-            System.out.println("5. Registration requests");
-            System.out.println("6. Marks and transcript");
-            System.out.println("7. Research workspace");
-            System.out.println("8. News");
-            System.out.println("9. Change password");
-            System.out.println("0. Logout");
+            ConsoleUI.option(1, "View profile");
+            ConsoleUI.option(2, "Browse courses");
+            ConsoleUI.option(3, "My courses and schedule");
+            ConsoleUI.option(4, "Register for a course");
+            ConsoleUI.option(5, "Registration requests");
+            ConsoleUI.option(6, "Marks and transcript");
+            ConsoleUI.option(7, "Research workspace");
+            ConsoleUI.option(8, "News");
+            ConsoleUI.option(9, "Change password");
+            ConsoleUI.exitOption("Logout");
             prompt();
             try {
                 switch (readInt()) {
@@ -146,7 +148,10 @@ public class Main {
                     case 3 -> printStudentCourses(student);
                     case 4 -> registerForSelectedCourse(student);
                     case 5 -> printStudentRequests(student);
-                    case 6 -> student.viewTranscript();
+                    case 6 -> {
+                        student.viewTranscript();
+                        pause();
+                    }
                     case 7 -> showResearchMenu(student);
                     case 8 -> printNews();
                     case 9 -> changePassword(student);
@@ -163,16 +168,16 @@ public class Main {
         boolean back = false;
         while (!back) {
             printHeader("Teacher Workspace - " + teacher.getFullName());
-            System.out.println("1. View profile");
-            System.out.println("2. Assigned courses");
-            System.out.println("3. View students on a course");
-            System.out.println("4. Put mark");
-            System.out.println("5. Messages");
-            System.out.println("6. Send message");
-            System.out.println("7. Send employee request");
-            System.out.println("8. Research workspace");
-            System.out.println("9. Change password");
-            System.out.println("0. Logout");
+            ConsoleUI.option(1, "View profile");
+            ConsoleUI.option(2, "Assigned courses");
+            ConsoleUI.option(3, "View students on a course");
+            ConsoleUI.option(4, "Put mark");
+            ConsoleUI.option(5, "Messages");
+            ConsoleUI.option(6, "Send message");
+            ConsoleUI.option(7, "Send employee request");
+            ConsoleUI.option(8, "Research workspace");
+            ConsoleUI.option(9, "Change password");
+            ConsoleUI.exitOption("Logout");
             prompt();
             try {
                 switch (readInt()) {
@@ -198,16 +203,16 @@ public class Main {
         boolean back = false;
         while (!back) {
             printHeader("Manager Workspace - " + manager.getFullName());
-            System.out.println("1. View profile");
-            System.out.println("2. Registration requests");
-            System.out.println("3. Process registration request");
-            System.out.println("4. Assign teacher to course");
-            System.out.println("5. Create academic report");
-            System.out.println("6. News management");
-            System.out.println("7. Employee requests");
-            System.out.println("8. Research supervisors");
-            System.out.println("9. University dashboard");
-            System.out.println("0. Logout");
+            ConsoleUI.option(1, "View profile");
+            ConsoleUI.option(2, "Registration requests");
+            ConsoleUI.option(3, "Process registration request");
+            ConsoleUI.option(4, "Assign teacher to course");
+            ConsoleUI.option(5, "Create academic report");
+            ConsoleUI.option(6, "News management");
+            ConsoleUI.option(7, "Employee requests");
+            ConsoleUI.option(8, "Research supervisors");
+            ConsoleUI.option(9, "University dashboard");
+            ConsoleUI.exitOption("Logout");
             prompt();
             try {
                 switch (readInt()) {
@@ -233,18 +238,18 @@ public class Main {
         boolean back = false;
         while (!back) {
             printHeader("Admin Workspace - " + admin.getFullName());
-            System.out.println("1. View users");
-            System.out.println("2. Create user");
-            System.out.println("3. Remove user");
-            System.out.println("4. Change account status");
-            System.out.println("5. View logs");
-            System.out.println("6. View storage status");
-            System.out.println("7. Create course");
-            System.out.println("8. Change course status");
-            System.out.println("9. Save data");
-            System.out.println("10. Load data");
-            System.out.println("11. University dashboard");
-            System.out.println("0. Logout");
+            ConsoleUI.option(1, "View users");
+            ConsoleUI.option(2, "Create user");
+            ConsoleUI.option(3, "Remove user");
+            ConsoleUI.option(4, "Change account status");
+            ConsoleUI.option(5, "View logs");
+            ConsoleUI.option(6, "View storage status");
+            ConsoleUI.option(7, "Create course");
+            ConsoleUI.option(8, "Change course status");
+            ConsoleUI.option(9, "Save data");
+            ConsoleUI.option(10, "Load data");
+            ConsoleUI.option(11, "University dashboard");
+            ConsoleUI.exitOption("Logout");
             prompt();
             try {
                 switch (readInt()) {
@@ -273,14 +278,14 @@ public class Main {
         boolean back = false;
         while (!back) {
             printHeader("Research Workspace - " + user.getFullName());
-            System.out.println("1. View research profile");
-            System.out.println("2. Add research paper");
-            System.out.println("3. Print papers sorted");
-            System.out.println("4. View research projects");
-            System.out.println("5. Join research project");
-            System.out.println("6. Create research project");
-            System.out.println("7. View top cited researcher");
-            System.out.println("0. Back");
+            ConsoleUI.option(1, "View research profile");
+            ConsoleUI.option(2, "Add research paper");
+            ConsoleUI.option(3, "Print papers sorted");
+            ConsoleUI.option(4, "View research projects");
+            ConsoleUI.option(5, "Join research project");
+            ConsoleUI.option(6, "Create research project");
+            ConsoleUI.option(7, "View top cited researcher");
+            ConsoleUI.exitOption("Back");
             prompt();
             try {
                 switch (readInt()) {
@@ -290,7 +295,10 @@ public class Main {
                     case 4 -> printResearchProjects();
                     case 5 -> joinResearchProject(profile);
                     case 6 -> createResearchProject(profile);
-                    case 7 -> System.out.println(researchService.findTopCitedResearcher().orElse(null));
+                    case 7 -> {
+                        System.out.println(researchService.findTopCitedResearcher().orElse(null));
+                        pause();
+                    }
                     case 0 -> back = true;
                     default -> warnUnknown();
                 }
@@ -304,6 +312,7 @@ public class Main {
         printHeader("Course Catalog");
         if (system.getCourses().isEmpty()) {
             System.out.println("No courses.");
+            pause();
             return;
         }
         for (int i = 0; i < system.getCourses().size(); i++) {
@@ -322,18 +331,21 @@ public class Main {
                 course.getLessons().forEach(lesson -> System.out.println("   " + lesson));
             }
         }
+        pause();
     }
 
     private void printStudentCourses(Student student) {
         printHeader("My Courses");
         if (student.getRegisteredCourses().isEmpty()) {
             System.out.println("No registered courses yet.");
+            pause();
             return;
         }
         for (Course course : student.getRegisteredCourses()) {
             System.out.println(course);
             course.getLessons().forEach(lesson -> System.out.println("   " + lesson));
         }
+        pause();
     }
 
     private void registerForSelectedCourse(Student student) {
@@ -351,18 +363,26 @@ public class Main {
 
     private void printStudentRequests(Student student) {
         printHeader("My Registration Requests");
-        system.getRegistrationRequests().stream()
+        List<RegistrationRequest> requests = system.getRegistrationRequests().stream()
                 .filter(request -> request.getStudent().equals(student))
-                .forEach(System.out::println);
+                .toList();
+        if (requests.isEmpty()) {
+            System.out.println("No registration requests yet.");
+        } else {
+            requests.forEach(System.out::println);
+        }
+        pause();
     }
 
     private void printRegistrationRequests() {
         printHeader("Registration Requests");
         if (system.getRegistrationRequests().isEmpty()) {
             System.out.println("No requests.");
+            pause();
             return;
         }
         system.getRegistrationRequests().forEach(System.out::println);
+        pause();
     }
 
     private void processRegistrationRequest(Manager manager) {
@@ -373,15 +393,17 @@ public class Main {
         if (request == null) {
             return;
         }
-        System.out.println("1. Approve");
-        System.out.println("2. Reject");
+        ConsoleUI.option(1, "Approve");
+        ConsoleUI.option(2, "Reject");
         prompt();
         int choice = readInt();
         if (choice == 1) {
             manager.approveRegistration(request);
+            system.addLog(manager.getLogin(), "registration approved: " + request.getRequestId());
             printSuccess("Approved.");
         } else if (choice == 2) {
             manager.rejectRegistration(request);
+            system.addLog(manager.getLogin(), "registration rejected: " + request.getRequestId());
             printSuccess("Rejected.");
         }
     }
@@ -432,12 +454,13 @@ public class Main {
         List<Student> students = students();
         Report report = manager.createReport(students);
         report.print();
+        pause();
     }
 
     private void showNewsManagement(Manager manager) {
-        System.out.println("1. List news");
-        System.out.println("2. Publish news");
-        System.out.println("3. Edit news text");
+        ConsoleUI.option(1, "List news");
+        ConsoleUI.option(2, "Publish news");
+        ConsoleUI.option(3, "Edit news text");
         prompt();
         switch (readInt()) {
             case 1 -> printNews();
@@ -473,8 +496,8 @@ public class Main {
         if (request == null) {
             return;
         }
-        System.out.println("1. Approve");
-        System.out.println("2. Reject");
+        ConsoleUI.option(1, "Approve");
+        ConsoleUI.option(2, "Reject");
         prompt();
         int choice = readInt();
         if (choice == 1) {
@@ -506,6 +529,7 @@ public class Main {
         System.out.println("Most cited paper: " + profile.getMostCitedPaper());
         System.out.println("Papers: " + profile.getResearchPapers().size());
         System.out.println("Projects: " + profile.getResearchProjects().size());
+        pause();
     }
 
     private void addResearchPaper(ResearchProfile profile) {
@@ -524,17 +548,20 @@ public class Main {
     private void printPapersSorted(ResearchProfile profile) {
         Comparator<ResearchPaper> comparator = choosePaperComparator();
         profile.printPapers(comparator);
+        pause();
     }
 
     private void printResearchProjects() {
         printHeader("Research Projects");
         if (system.getResearchProjects().isEmpty()) {
             System.out.println("No projects.");
+            pause();
             return;
         }
         for (ResearchProject project : system.getResearchProjects()) {
             project.printProjectInfo();
         }
+        pause();
     }
 
     private void joinResearchProject(ResearchProfile profile) {
@@ -552,14 +579,15 @@ public class Main {
         ResearchProject project = new ResearchProject(topic);
         project.setProjectId("PR-" + System.currentTimeMillis());
         system.addResearchProject(project);
+        system.addLog(researchActor(profile), "research project created: " + project.getTopic());
         facade.joinResearchProject(profile, project);
         printSuccess("Project created and joined.");
     }
 
     private Comparator<ResearchPaper> choosePaperComparator() {
-        System.out.println("1. By citations");
-        System.out.println("2. By publication date");
-        System.out.println("3. By pages");
+        ConsoleUI.option(1, "By citations");
+        ConsoleUI.option(2, "By publication date");
+        ConsoleUI.option(3, "By pages");
         prompt();
         return switch (readInt()) {
             case 2 -> new PaperDateComparator();
@@ -583,9 +611,11 @@ public class Main {
         printHeader("Messages");
         if (employee.getMessages().isEmpty()) {
             System.out.println("No messages.");
+            pause();
             return;
         }
         employee.getMessages().forEach(System.out::println);
+        pause();
     }
 
     private void sendEmployeeRequest(Employee employee) {
@@ -596,10 +626,15 @@ public class Main {
     private void printUsers() {
         printHeader("Users");
         system.getUsers().forEach(System.out::println);
+        pause();
     }
 
     private void createUser() {
-        System.out.println("Role: 1.Student 2.Teacher 3.Manager 4.Admin");
+        ConsoleUI.section("Choose role");
+        ConsoleUI.option(1, "Student");
+        ConsoleUI.option(2, "Teacher");
+        ConsoleUI.option(3, "Manager");
+        ConsoleUI.option(4, "Admin");
         prompt();
         UserRole role = switch (readInt()) {
             case 2 -> UserRole.TEACHER;
@@ -632,8 +667,8 @@ public class Main {
         if (user == null) {
             return;
         }
-        System.out.println("1. ACTIVE");
-        System.out.println("2. BLOCKED");
+        ConsoleUI.option(1, "ACTIVE");
+        ConsoleUI.option(2, "BLOCKED");
         prompt();
         user.setStatus(readInt() == 2 ? AccountStatus.BLOCKED : AccountStatus.ACTIVE);
         facade.updateUser(user);
@@ -662,10 +697,10 @@ public class Main {
         if (course == null) {
             return;
         }
-        System.out.println("1. OPEN_FOR_REGISTRATION");
-        System.out.println("2. ACTIVE");
-        System.out.println("3. CLOSED");
-        System.out.println("4. FINISHED");
+        ConsoleUI.option(1, "OPEN_FOR_REGISTRATION");
+        ConsoleUI.option(2, "ACTIVE");
+        ConsoleUI.option(3, "CLOSED");
+        ConsoleUI.option(4, "FINISHED");
         prompt();
         CourseStatus status = switch (readInt()) {
             case 2 -> CourseStatus.ACTIVE;
@@ -679,10 +714,44 @@ public class Main {
     }
 
     private void printLogs() {
-        printHeader("Logs");
         List<LogEntry> logs = facade.getLogs();
-        int start = Math.max(0, logs.size() - 30);
-        logs.subList(start, logs.size()).forEach(System.out::println);
+        if (logs.isEmpty()) {
+            printHeader("Logs");
+            System.out.println("No logs.");
+            pause();
+            return;
+        }
+
+        int page = Math.max(0, (logs.size() - 1) / LOG_PAGE_SIZE);
+        while (true) {
+            int totalPages = (int) Math.ceil((double) logs.size() / LOG_PAGE_SIZE);
+            int start = page * LOG_PAGE_SIZE;
+            int end = Math.min(start + LOG_PAGE_SIZE, logs.size());
+
+            printHeader("Logs - Page " + (page + 1) + "/" + totalPages);
+            for (int i = start; i < end; i++) {
+                System.out.println((i + 1) + ". " + logs.get(i));
+            }
+
+            ConsoleUI.info("[N] next page  [P] previous page  [0] back");
+            prompt();
+            String command = scanner.nextLine().trim().toLowerCase();
+            if (command.isEmpty() || "n".equals(command)) {
+                if (page < totalPages - 1) {
+                    page++;
+                } else {
+                    return;
+                }
+            } else if ("p".equals(command)) {
+                if (page > 0) {
+                    page--;
+                }
+            } else if ("0".equals(command) || "q".equals(command) || "b".equals(command)) {
+                return;
+            } else {
+                warnUnknown();
+            }
+        }
     }
 
     private void printStorageStatus() {
@@ -692,28 +761,34 @@ public class Main {
         if (file.exists()) {
             System.out.println("Size: " + file.length() + " bytes");
         }
+        pause();
     }
 
     private void printNews() {
         printHeader("University News");
         if (system.getNews().isEmpty()) {
             System.out.println("No news.");
+            pause();
             return;
         }
         system.getNews().forEach(System.out::println);
+        pause();
     }
 
     private void printSystemSnapshot() {
         printHeader("University Dashboard");
-        System.out.println("Users: " + system.getUsers().size());
-        System.out.println("Students: " + students().size());
-        System.out.println("Teachers: " + teachers().size());
-        System.out.println("Managers: " + managers().size());
-        System.out.println("Courses: " + system.getCourses().size());
-        System.out.println("Registration requests: " + system.getRegistrationRequests().size());
-        System.out.println("Research projects: " + system.getResearchProjects().size());
-        System.out.println("News: " + system.getNews().size());
-        System.out.println("Logs: " + system.getLogs().size());
+        ConsoleUI.dashboard(new String[][]{
+                {"Users", String.valueOf(system.getUsers().size())},
+                {"Students", String.valueOf(students().size())},
+                {"Teachers", String.valueOf(teachers().size())},
+                {"Managers", String.valueOf(managers().size())},
+                {"Courses", String.valueOf(system.getCourses().size())},
+                {"Registration requests", String.valueOf(system.getRegistrationRequests().size())},
+                {"Research projects", String.valueOf(system.getResearchProjects().size())},
+                {"News", String.valueOf(system.getNews().size())},
+                {"Logs", String.valueOf(system.getLogs().size())}
+        });
+        pause();
     }
 
     private void printDemoAccounts() {
@@ -730,13 +805,17 @@ public class Main {
         System.out.println("student3 / pass");
         System.out.println("senior / pass");
         System.out.println("researcher / pass");
+        pause();
     }
 
     private void changePassword(User user) {
         String oldPassword = readText("Old password: ");
         String newPassword = readText("New password: ");
-        user.changePassword(oldPassword, newPassword);
-        printSuccess("If the old password was correct, password has been updated.");
+        if (user.changePassword(oldPassword, newPassword)) {
+            printSuccess("Password updated successfully.");
+        } else {
+            printError("Password update failed", new IllegalArgumentException("Old password is incorrect."));
+        }
     }
 
     private void saveData() {
@@ -758,6 +837,11 @@ public class Main {
                 printError("Could not load existing storage; default seed will be used", e);
             }
         }
+    }
+
+    private void showStartupBanner() {
+        ConsoleUI.startupBanner();
+        pause();
     }
 
     private ResearchProfile getOrCreateResearchProfile(User user) {
@@ -821,9 +905,17 @@ public class Main {
         return researcher.toString();
     }
 
+    private String researchActor(Researcher researcher) {
+        if (researcher instanceof ResearchProfile profile && profile.getOwner() != null) {
+            return profile.getOwner().getLogin();
+        }
+        return "research";
+    }
+
     private void printCourses(List<Course> courses) {
         if (courses.isEmpty()) {
             System.out.println("No courses.");
+            pause();
             return;
         }
         for (Course course : courses) {
@@ -832,6 +924,7 @@ public class Main {
                 System.out.println("   " + lesson);
             }
         }
+        pause();
     }
 
     private <T> T chooseFromList(String title, List<T> items, java.util.function.Function<T, String> label) {
@@ -841,9 +934,9 @@ public class Main {
             return null;
         }
         for (int i = 0; i < items.size(); i++) {
-            System.out.println((i + 1) + ". " + label.apply(items.get(i)));
+            ConsoleUI.option(i + 1, label.apply(items.get(i)));
         }
-        System.out.println("0. Cancel");
+        ConsoleUI.exitOption("Cancel");
         prompt();
         int choice = readInt();
         if (choice <= 0 || choice > items.size()) {
@@ -858,15 +951,26 @@ public class Main {
     }
 
     private int readInt(String promptText) {
-        System.out.print(promptText);
-        return readInt();
+        while (true) {
+            System.out.print(promptText);
+            String input = scanner.nextLine().trim();
+            if (!input.isEmpty()) {
+                return parseIntOrUnknown(input);
+            }
+        }
     }
 
     private int readInt() {
-        String input = scanner.nextLine().trim();
-        if (input.isEmpty()) {
-            return -1;
+        while (true) {
+            String input = scanner.nextLine().trim();
+            if (!input.isEmpty()) {
+                return parseIntOrUnknown(input);
+            }
+            prompt();
         }
+    }
+
+    private int parseIntOrUnknown(String input) {
         try {
             return Integer.parseInt(input);
         } catch (NumberFormatException e) {
@@ -885,23 +989,28 @@ public class Main {
     }
 
     private void printHeader(String title) {
-        System.out.println();
-        System.out.println("=== " + title + " ===");
+        ConsoleUI.title(title);
     }
 
     private void prompt() {
-        System.out.print("Choose: ");
+        ConsoleUI.prompt();
+    }
+
+    private void pause() {
+        ConsoleUI.pause();
+        scanner.nextLine();
+        System.out.println();
     }
 
     private void warnUnknown() {
-        System.out.println("Unknown option. Try again.");
+        ConsoleUI.warning("Unknown option. Try again.");
     }
 
     private void printSuccess(String message) {
-        System.out.println("[OK] " + message);
+        ConsoleUI.success(message);
     }
 
     private void printError(String prefix, RuntimeException e) {
-        System.out.println("[ERROR] " + prefix + ": " + e.getMessage());
+        ConsoleUI.error(prefix + ": " + e.getMessage());
     }
 }

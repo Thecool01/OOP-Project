@@ -36,6 +36,7 @@ public class ResearchService {
         } else {
             researcher.getResearchPapers().add(paper);
         }
+        system.addLog(researcherLogin(researcher), "research paper added: " + paper.getTitle());
     }
 
     public void joinProject(Researcher researcher, ResearchProject project) {
@@ -49,6 +50,7 @@ public class ResearchService {
         } else if (researcher instanceof ResearcherDecorator decorator && !decorator.getResearchProjects().contains(project)) {
             decorator.addProject(project);
         }
+        system.addLog(researcherLogin(researcher), "joined research project: " + project.getTopic());
     }
 
     public void assignSupervisor(Student student, Researcher supervisor) {
@@ -59,6 +61,7 @@ public class ResearchService {
             throw new LowHIndexSupervisorException(String.valueOf(supervisor));
         }
         student.assignSupervisor(supervisor);
+        system.addLog(student.getLogin(), "research supervisor assigned: " + researcherLogin(supervisor));
     }
 
     public void printAllPapers(Comparator<ResearchPaper> comparator) {
@@ -106,6 +109,19 @@ public class ResearchService {
             return Optional.of(researcher);
         }
         return Optional.empty();
+    }
+
+    private String researcherLogin(Researcher researcher) {
+        if (researcher instanceof ResearchProfile profile && profile.getOwner() != null) {
+            return profile.getOwner().getLogin();
+        }
+        if (researcher instanceof ResearcherDecorator decorator && decorator.getUser() != null) {
+            return decorator.getUser().getLogin();
+        }
+        if (researcher instanceof User user) {
+            return user.getLogin();
+        }
+        return "research";
     }
 
     private Stream<ResearchPaper> collectUniversityPapers() {
