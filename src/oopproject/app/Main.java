@@ -954,20 +954,28 @@ public class Main {
         while (true) {
             System.out.print(promptText);
             String input = scanner.nextLine().trim();
-            if (!input.isEmpty()) {
-                return parseIntOrUnknown(input);
+
+            if (input.isEmpty()) {
+                ConsoleUI.warning("Input cannot be empty. Please enter a number.");
+                continue;
+            }
+
+            try {
+                return Integer.parseInt(input);
+            } catch (NumberFormatException e) {
+                ConsoleUI.warning("Invalid number. Please try again.");
             }
         }
     }
 
     private int readInt() {
-        while (true) {
-            String input = scanner.nextLine().trim();
-            if (!input.isEmpty()) {
-                return parseIntOrUnknown(input);
-            }
-            prompt();
+        String input = scanner.nextLine().trim();
+
+        if (input.isEmpty()) {
+            return -1;
         }
+
+        return parseIntOrUnknown(input);
     }
 
     private int parseIntOrUnknown(String input) {
@@ -999,7 +1007,6 @@ public class Main {
     private void pause() {
         ConsoleUI.pause();
         scanner.nextLine();
-        System.out.println();
     }
 
     private void warnUnknown() {

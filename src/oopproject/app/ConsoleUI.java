@@ -58,7 +58,7 @@ public final class ConsoleUI {
     }
 
     public static void exitOption(String text) {
-        option(0, text);
+        System.out.println(RED + "  [0] " + RESET + text);
     }
 
     public static void prompt() {
@@ -66,7 +66,7 @@ public final class ConsoleUI {
     }
 
     public static void pause() {
-        System.out.print(PURPLE + "Press Enter to continue..." + RESET);
+        System.out.print(PURPLE + "\n  Press Enter to continue..." + RESET);
     }
 
     public static void dashboard(String[][] cards) {
@@ -83,28 +83,9 @@ public final class ConsoleUI {
     public static void startupBanner() {
         System.out.println();
         line("=");
-        String[] duke = {
-                "                 .",
-                "                / \\",
-                "               /   \\",
-                "              /     \\",
-                "        ____ /  JAVA \\",
-                "       / __ \\   ___  \\",
-                "      / /  \\ \\ /   \\  \\",
-                "     | | () | |  *  |  |     { }",
-                "      \\ \\__/ / \\___/  /     {   }",
-                "       \\____/    |   /       { }",
-                "          /\\     |__/       /|",
-                "         /  \\____/  \\      / |",
-                "        /            \\____/  |",
-                "       /___/\\________/\\______|",
-                "          /_/        \\_\\"
-        };
-        for (String line : duke) {
-            System.out.println(BOLD + line + RESET);
-        }
-        System.out.println();
         System.out.println(BOLD + CYAN + center("Team: Dukes") + RESET);
+        System.out.println(BOLD + center("Research-Oriented University System") + RESET);
+        System.out.println();
         System.out.println(CYAN + center("Students:") + RESET);
         System.out.println(center("1. Team Leader: Ishutin Nikolay"));
         System.out.println(center("2. Zhazykbayeva Tomiris"));
