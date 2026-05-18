@@ -1,6 +1,7 @@
 package oopproject.app;
 
 import java.io.File;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -45,6 +46,7 @@ import oopproject.users.User;
 public class Main {
     private static final String STORAGE_FILE = "university-system.ser";
     private static final int LOG_PAGE_SIZE = 8;
+    private static final DateTimeFormatter DISPLAY_DATE_TIME = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     private final Scanner scanner = new Scanner(System.in);
     private final UniversitySystem system = UniversitySystem.getInstance();
@@ -122,7 +124,7 @@ public class Main {
         } else if (user instanceof Student student) {
             showStudentMenu(student);
         } else {
-            System.out.println(user.viewProfile());
+            printUserProfile(user);
         }
     }
 
@@ -143,7 +145,7 @@ public class Main {
             prompt();
             try {
                 switch (readInt()) {
-                    case 1 -> System.out.println(student.viewProfile());
+                    case 1 -> printUserProfile(student);
                     case 2 -> printCourseCatalog();
                     case 3 -> printStudentCourses(student);
                     case 4 -> registerForSelectedCourse(student);
@@ -181,7 +183,7 @@ public class Main {
             prompt();
             try {
                 switch (readInt()) {
-                    case 1 -> System.out.println(teacher.viewProfile());
+                    case 1 -> printUserProfile(teacher);
                     case 2 -> printCourses(teacher.getAssignedCourses());
                     case 3 -> viewStudentsOnCourse(teacher);
                     case 4 -> putMark(teacher);
@@ -216,7 +218,7 @@ public class Main {
             prompt();
             try {
                 switch (readInt()) {
-                    case 1 -> System.out.println(manager.viewProfile());
+                    case 1 -> printUserProfile(manager);
                     case 2 -> printRegistrationRequests();
                     case 3 -> processRegistrationRequest(manager);
                     case 4 -> assignTeacher(manager);
@@ -316,20 +318,7 @@ public class Main {
             return;
         }
         for (int i = 0; i < system.getCourses().size(); i++) {
-            Course course = system.getCourses().get(i);
-            System.out.printf("%d. %s | %s | credits=%d | students=%d | instructors=%s%n",
-                    i + 1,
-                    course.getCourseId(),
-                    course.getCourseName(),
-                    course.getCredits(),
-                    course.getStudents().size(),
-                    course.getInstructors().stream().map(User::getLogin).toList());
-            if (course.getDescription() != null) {
-                System.out.println("   " + course.getDescription());
-            }
-            if (!course.getLessons().isEmpty()) {
-                course.getLessons().forEach(lesson -> System.out.println("   " + lesson));
-            }
+            printCourseCard(system.getCourses().get(i), i + 1);
         }
         pause();
     }
@@ -342,8 +331,7 @@ public class Main {
             return;
         }
         for (Course course : student.getRegisteredCourses()) {
-            System.out.println(course);
-            course.getLessons().forEach(lesson -> System.out.println("   " + lesson));
+            printCourseCard(course, 0);
         }
         pause();
     }
@@ -369,7 +357,9 @@ public class Main {
         if (requests.isEmpty()) {
             System.out.println("No registration requests yet.");
         } else {
-            requests.forEach(System.out::println);
+            for (int i = 0; i < requests.size(); i++) {
+                printRegistrationRequestCard(requests.get(i), i + 1);
+            }
         }
         pause();
     }
@@ -381,7 +371,9 @@ public class Main {
             pause();
             return;
         }
-        system.getRegistrationRequests().forEach(System.out::println);
+        for (int i = 0; i < system.getRegistrationRequests().size(); i++) {
+            printRegistrationRequestCard(system.getRegistrationRequests().get(i), i + 1);
+        }
         pause();
     }
 
@@ -427,9 +419,13 @@ public class Main {
         printHeader("Students on " + course.getCourseName());
         if (course.getStudents().isEmpty()) {
             System.out.println("No students on this course.");
+            pause();
             return;
         }
-        course.getStudents().forEach(System.out::println);
+        for (int i = 0; i < course.getStudents().size(); i++) {
+            printStudentCard(course.getStudents().get(i), i + 1);
+        }
+        pause();
     }
 
     private void putMark(Teacher teacher) {
@@ -614,7 +610,9 @@ public class Main {
             pause();
             return;
         }
-        employee.getMessages().forEach(System.out::println);
+        for (int i = 0; i < employee.getMessages().size(); i++) {
+            printMessageCard(employee.getMessages().get(i), i + 1);
+        }
         pause();
     }
 
@@ -625,7 +623,9 @@ public class Main {
 
     private void printUsers() {
         printHeader("Users");
-        system.getUsers().forEach(System.out::println);
+        for (int i = 0; i < system.getUsers().size(); i++) {
+            printUserCard(system.getUsers().get(i), i + 1);
+        }
         pause();
     }
 
@@ -771,7 +771,9 @@ public class Main {
             pause();
             return;
         }
-        system.getNews().forEach(System.out::println);
+        for (int i = 0; i < system.getNews().size(); i++) {
+            printNewsCard(system.getNews().get(i), i + 1);
+        }
         pause();
     }
 
@@ -912,6 +914,141 @@ public class Main {
         return "research";
     }
 
+    private void printUserProfile(User user) {
+        printHeader("Profile");
+        printUserCard(user, 0);
+        pause();
+    }
+
+    private void printNewsCard(News news, int number) {
+        ConsoleUI.section((number > 0 ? number + ". " : "") + safe(news.getTitle(), "Untitled news"));
+        printField("Id", news.getNewsId());
+        printField("Date", formatDateTime(news.getCreatedAt()));
+        printField("Author", news.getAuthor() == null ? "unknown" : news.getAuthor().getLogin());
+        printWrappedText("Text", news.getText());
+    }
+
+    private void printCourseCard(Course course, int number) {
+        String title = (number > 0 ? number + ". " : "") + course.getCourseId() + " - " + course.getCourseName();
+        ConsoleUI.section(title);
+        printField("Status", String.valueOf(course.getStatus()));
+        printField("Credits", String.valueOf(course.getCredits()));
+        printField("Major", safe(course.getMajor(), "not specified"));
+        printField("Recommended year", course.getYear() == 0 ? "not specified" : String.valueOf(course.getYear()));
+        printField("Students", String.valueOf(course.getStudents().size()));
+        printField("Instructors", course.getInstructors().isEmpty()
+                ? "not assigned"
+                : String.join(", ", course.getInstructors().stream().map(User::getLogin).toList()));
+        if (course.getDescription() != null && !course.getDescription().isBlank()) {
+            printWrappedText("Description", course.getDescription());
+        }
+        if (!course.getLessons().isEmpty()) {
+            System.out.println(ConsoleUI.BLUE + "  Lessons:" + ConsoleUI.RESET);
+            for (Lesson lesson : course.getLessons()) {
+                System.out.println("    - " + formatLesson(lesson));
+            }
+        }
+    }
+
+    private void printRegistrationRequestCard(RegistrationRequest request, int number) {
+        ConsoleUI.section((number > 0 ? number + ". " : "") + request.getRequestId());
+        printField("Student", request.getStudent() == null ? "unknown" : request.getStudent().getLogin());
+        printField("Course", request.getCourse() == null ? "unknown" : request.getCourse().getCourseName());
+        printField("Status", String.valueOf(request.getStatus()));
+        printField("Created", formatDateTime(request.getCreatedAt()));
+        printField("Processed by", request.getApprovedBy() == null ? "not processed yet" : request.getApprovedBy().getLogin());
+    }
+
+    private void printMessageCard(Message message, int number) {
+        ConsoleUI.section((number > 0 ? number + ". " : "") + message.getMessageId());
+        printField("From", message.getSender() == null ? "unknown" : message.getSender().getLogin());
+        printField("To", message.getReceiver() == null ? "unknown" : message.getReceiver().getLogin());
+        printField("Sent", formatDateTime(message.getSentAt()));
+        printField("Status", message.isRead() ? "read" : "unread");
+        printWrappedText("Message", message.getText());
+    }
+
+    private void printUserCard(User user, int number) {
+        ConsoleUI.section((number > 0 ? number + ". " : "") + user.getLogin());
+        printField("Id", user.getId());
+        printField("Name", safe(user.getFullName(), "not specified"));
+        printField("Role", String.valueOf(user.getRole()));
+        printField("Status", String.valueOf(user.getStatus()));
+        printField("Email", safe(user.getEmail(), "not specified"));
+
+        if (user instanceof Student student) {
+            printField("Major", safe(student.getMajor(), "not specified"));
+            printField("Year", String.valueOf(student.getYearOfStudy()));
+            printField("GPA", String.format("%.2f", student.getGpa()));
+            printField("Credits", String.valueOf(student.getCreditsEnrolled()));
+            printField("Registered courses", String.valueOf(student.getRegisteredCourses().size()));
+        } else if (user instanceof Teacher teacher) {
+            printField("Title", String.valueOf(teacher.getTitle()));
+            printField("Assigned courses", String.valueOf(teacher.getAssignedCourses().size()));
+        } else if (user instanceof Manager manager) {
+            printField("Manager type", String.valueOf(manager.getType()));
+            printField("Reports", String.valueOf(manager.getReports().size()));
+        }
+    }
+
+    private void printStudentCard(Student student, int number) {
+        ConsoleUI.section((number > 0 ? number + ". " : "") + student.getFullName());
+        printField("Id", student.getId());
+        printField("Login", student.getLogin());
+        printField("Major", safe(student.getMajor(), "not specified"));
+        printField("Year", String.valueOf(student.getYearOfStudy()));
+        printField("GPA", String.format("%.2f", student.getGpa()));
+        printField("Credits", String.valueOf(student.getCreditsEnrolled()));
+    }
+
+    private void printField(String label, String value) {
+        System.out.printf("  %s%-18s%s %s%n",
+                ConsoleUI.CYAN,
+                label + ":",
+                ConsoleUI.RESET,
+                safe(value, "not specified"));
+    }
+
+    private void printWrappedText(String label, String text) {
+        System.out.printf("  %s%-18s%s%n", ConsoleUI.CYAN, label + ":", ConsoleUI.RESET);
+        List<String> lines = wrapText(safe(text, "not specified"), 62);
+        for (String line : lines) {
+            System.out.println("    " + line);
+        }
+    }
+
+    private List<String> wrapText(String text, int width) {
+        List<String> lines = new ArrayList<>();
+        String remaining = text.strip();
+        while (remaining.length() > width) {
+            int breakAt = remaining.lastIndexOf(' ', width);
+            if (breakAt <= 0) {
+                breakAt = width;
+            }
+            lines.add(remaining.substring(0, breakAt).strip());
+            remaining = remaining.substring(breakAt).strip();
+        }
+        if (!remaining.isEmpty()) {
+            lines.add(remaining);
+        }
+        return lines.isEmpty() ? List.of("") : lines;
+    }
+
+    private String formatLesson(Lesson lesson) {
+        return safe(lesson.getTopic(), "Untitled lesson")
+                + " | " + lesson.getType()
+                + " | " + formatDateTime(lesson.getDateTime())
+                + " | room " + safe(lesson.getRoom(), "TBA");
+    }
+
+    private String formatDateTime(java.time.LocalDateTime dateTime) {
+        return dateTime == null ? "not specified" : dateTime.format(DISPLAY_DATE_TIME);
+    }
+
+    private String safe(String value, String fallback) {
+        return value == null || value.isBlank() ? fallback : value;
+    }
+
     private void printCourses(List<Course> courses) {
         if (courses.isEmpty()) {
             System.out.println("No courses.");
@@ -919,10 +1056,7 @@ public class Main {
             return;
         }
         for (Course course : courses) {
-            System.out.println(course);
-            for (Lesson lesson : course.getLessons()) {
-                System.out.println("   " + lesson);
-            }
+            printCourseCard(course, 0);
         }
         pause();
     }
